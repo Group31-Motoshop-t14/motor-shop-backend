@@ -9,3 +9,76 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+enum Fuel {
+  FLEX
+  HIBRIDO
+  ELETRICO 
+}
+
+model Users {
+  id            String    @id @default(uuid())
+  name          String
+  email         String    @unique
+  password      String
+  phone         String
+  birth_date    DateTime
+  description   String
+  is_advertiser Boolean   @default(false)
+  address       Address   @relation(fields: [addressId], references: [id])
+  addressId     String    @unique
+  created_at    DateTime  @default(now())
+  updated_at    DateTime  @updatedAt
+  deleted_at    DateTime  @default(now())
+  car           Cars[]
+  cars          Comment[]
+}
+
+model Address {
+  id         String  @id @default(uuid())
+  zip_code   String
+  state      String
+  city       String
+  street     String
+  number     String
+  complement String?
+  user       Users?
+}
+
+model Cars {
+  id           String      @id @default(uuid())
+  brand        String
+  model        String
+  year         String
+  fuel_type    Fuel
+  mileage      Int
+  color        String
+  fipe_price   Float
+  price        Float
+  description  String
+  created_at   DateTime    @default(now())
+  is_published Boolean     @default(false)
+  cover_image  String
+  user         Users       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId       String      @unique
+  users        Comment[]
+  carImages    CarImages[]
+}
+
+model Comment {
+  content String
+  user    Users  @relation(fields: [userId], references: [id])
+  userId  String
+  car     Cars   @relation(fields: [carId], references: [id])
+  carId   String
+  created_at DateTime
+
+  @@id([userId, carId])
+}
+
+model CarImages {
+  id    BigInt @id
+  url   String
+  car   Cars   @relation(fields: [carId], references: [id])
+  carId String @unique
+}
