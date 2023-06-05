@@ -24,12 +24,12 @@ model Users {
   cpf           String    @db.VarChar(11) @unique
   phone         String    @db.VarChar(13)
   birth_date    DateTime
-  description   String
+  description   String @db.Text()
   is_advertiser Boolean   @default(false)
   addressId     String    @unique
-  created_at    DateTime  @default(now())
-  updated_at    DateTime  @updatedAt
-  deleted_at    DateTime  @default(now())
+  createdAt    DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  isDeleted    Boolean @default(false)
   address       Address?
   car           Cars[]
   cars          Comment[]
@@ -39,7 +39,7 @@ model Users {
 
 model Address {
   id         String   @id @default(uuid())
-  zip_code   String   @db.VarChar(8)
+  zipCode   String   @db.VarChar(8)
   state      String   @db.VarChar(2)
   city       String   @db.VarChar(100)
   street     String   @db.VarChar(100)
@@ -56,15 +56,15 @@ model Cars {
   brand        String   @db.VarChar(150)
   model        String   @db.VarChar(150)
   year         String   @db.VarChar(4)
-  fuel_type    Fuel
+  fuelType    Fuel
   mileage      Int      @db.Integer()
   color        String   @db.VarChar(150)
-  fipe_price   Float 
+  fipePrice   Float 
   price        Float
   description  String   @db.Text()
-  created_at   DateTime @default(now())
+  createdAt   DateTime @default(now())
   is_published Boolean  @default(false)
-  cover_image  String   @db.Text()
+  coverImage  String   @db.Text()
   user         Users    @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId       String     
   users        Comment[]
@@ -79,7 +79,7 @@ model Comment {
   userId  String
   car     Cars   @relation(fields: [carId], references: [id])
   carId   String 
-  created_at DateTime 
+  createdAt DateTime @default(now())
 
   @@id([userId, carId])
   @@map("comments")
@@ -91,5 +91,5 @@ model CarImages {
   car   Cars   @relation(fields: [carId], references: [id])
   carId String 
 
-  @@map("car_images")
+  @@map("carImages")
 }

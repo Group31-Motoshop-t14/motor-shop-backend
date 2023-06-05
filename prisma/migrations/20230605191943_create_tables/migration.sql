@@ -13,9 +13,9 @@ CREATE TABLE "users" (
     "description" TEXT NOT NULL,
     "is_advertiser" BOOLEAN NOT NULL DEFAULT false,
     "addressId" TEXT NOT NULL,
-    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updated_at" TIMESTAMP(3) NOT NULL,
-    "deleted_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+    "isDeleted" BOOLEAN NOT NULL DEFAULT false,
 
     CONSTRAINT "users_pkey" PRIMARY KEY ("id")
 );
@@ -23,7 +23,7 @@ CREATE TABLE "users" (
 -- CreateTable
 CREATE TABLE "addresses" (
     "id" TEXT NOT NULL,
-    "zip_code" VARCHAR(8) NOT NULL,
+    "zipCode" VARCHAR(8) NOT NULL,
     "state" VARCHAR(2) NOT NULL,
     "city" VARCHAR(100) NOT NULL,
     "street" VARCHAR(100) NOT NULL,
@@ -40,15 +40,15 @@ CREATE TABLE "cars" (
     "brand" VARCHAR(150) NOT NULL,
     "model" VARCHAR(150) NOT NULL,
     "year" VARCHAR(4) NOT NULL,
-    "fuel_type" "Fuel" NOT NULL,
+    "fuelType" "Fuel" NOT NULL,
     "mileage" INTEGER NOT NULL,
     "color" VARCHAR(150) NOT NULL,
-    "fipe_price" DOUBLE PRECISION NOT NULL,
+    "fipePrice" DOUBLE PRECISION NOT NULL,
     "price" DOUBLE PRECISION NOT NULL,
     "description" TEXT NOT NULL,
-    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "is_published" BOOLEAN NOT NULL DEFAULT false,
-    "cover_image" TEXT NOT NULL,
+    "coverImage" TEXT NOT NULL,
     "userId" TEXT NOT NULL,
 
     CONSTRAINT "cars_pkey" PRIMARY KEY ("id")
@@ -59,18 +59,18 @@ CREATE TABLE "comments" (
     "content" TEXT NOT NULL,
     "userId" TEXT NOT NULL,
     "carId" TEXT NOT NULL,
-    "created_at" TIMESTAMP(3) NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "comments_pkey" PRIMARY KEY ("userId","carId")
 );
 
 -- CreateTable
-CREATE TABLE "car_images" (
+CREATE TABLE "carImages" (
     "id" BIGINT NOT NULL,
     "url" TEXT NOT NULL,
     "carId" TEXT NOT NULL,
 
-    CONSTRAINT "car_images_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "carImages_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateIndex
@@ -98,4 +98,4 @@ ALTER TABLE "comments" ADD CONSTRAINT "comments_userId_fkey" FOREIGN KEY ("userI
 ALTER TABLE "comments" ADD CONSTRAINT "comments_carId_fkey" FOREIGN KEY ("carId") REFERENCES "cars"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "car_images" ADD CONSTRAINT "car_images_carId_fkey" FOREIGN KEY ("carId") REFERENCES "cars"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "carImages" ADD CONSTRAINT "carImages_carId_fkey" FOREIGN KEY ("carId") REFERENCES "cars"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
