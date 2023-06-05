@@ -13,7 +13,7 @@ datasource db {
 enum Fuel {
   FLEX
   HIBRIDO
-  ELETRICO 
+  ELETRICO
 }
 
 model Users {
@@ -66,11 +66,11 @@ model Cars {
 }
 
 model Comment {
-  content String
-  user    Users  @relation(fields: [userId], references: [id])
-  userId  String
-  car     Cars   @relation(fields: [carId], references: [id])
-  carId   String
+  content    String
+  user       Users    @relation(fields: [userId], references: [id])
+  userId     String
+  car        Cars     @relation(fields: [carId], references: [id])
+  carId      String
   created_at DateTime
 
   @@id([userId, carId])
