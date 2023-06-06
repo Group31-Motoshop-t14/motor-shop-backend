@@ -5,9 +5,12 @@ import {
     ICreateUserResponse
 } from "./user.interfaces";
 
+import { ILogin } from "./login.interfaces";
+
 export {
     IUser,
     IAddress,
     ICreateUser,
-    ICreateUserResponse
+    ICreateUserResponse,
+    ILogin
 }

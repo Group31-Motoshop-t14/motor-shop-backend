@@ -2,7 +2,7 @@ import { PrismaClient, Users } from "@prisma/client";
 import { NextFunction, Request, Response } from "express";
 import { AppError } from "../errors";
 
-const validateEmailMiddleware = async (req: Request, res: Response, next: NextFunction) => {
+const validateEmailExistsMiddleware = async (req: Request, res: Response, next: NextFunction) => {
 
     const prisma = new PrismaClient()
     const verifyUserEmail: Users | null = await prisma.users.findFirst({where: {email: req.body.email}})
@@ -12,4 +12,4 @@ const validateEmailMiddleware = async (req: Request, res: Response, next: NextFu
         return next()
 }
 
-export default validateEmailMiddleware
+export default validateEmailExistsMiddleware

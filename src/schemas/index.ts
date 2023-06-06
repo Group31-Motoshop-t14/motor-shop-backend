@@ -2,12 +2,17 @@ import {
     userSchema,
     addressSchema,
     createUserSchema,
-    createUserSchemaResponse
+    createUserSchemaResponse,
+    updateUserSchema
 } from "./user.schemas";
+
+import { createLoginSchema } from "./login.schemas";
 
 export {
     userSchema,
     addressSchema,
     createUserSchema,
-    createUserSchemaResponse
+    createUserSchemaResponse,
+    createLoginSchema,
+    updateUserSchema
 }

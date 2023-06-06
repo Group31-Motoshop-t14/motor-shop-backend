@@ -44,9 +44,12 @@ const createUserSchemaResponse = userSchemaResponse.extend({
     address: addressSchemaResponse
 }).omit({password: true})
 
+const updateUserSchema = userSchema.partial()
+
 export {
     userSchema,
     addressSchema,
     createUserSchema,
-    createUserSchemaResponse
+    createUserSchemaResponse,
+    updateUserSchema
 }

@@ -6,10 +6,13 @@ import {
     deleteUserController
 } from "./user.controllers";
 
+import { createLoginController } from "./login.controllers";
+
 export {
     createUserController,
     listAllUsersController,
     listUserController,
     updateUserController,
-    deleteUserController
+    deleteUserController,
+    createLoginController
 }
