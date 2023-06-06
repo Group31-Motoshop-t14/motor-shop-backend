@@ -2,7 +2,8 @@ import {
     IUser,
     IAddress,
     ICreateUser,
-    ICreateUserResponse
+    ICreateUserResponse,
+    IUpdateUserResponse
 } from "./user.interfaces";
 
 import { ILogin } from "./login.interfaces";
@@ -12,5 +13,6 @@ export {
     IAddress,
     ICreateUser,
     ICreateUserResponse,
+    IUpdateUserResponse,
     ILogin
 }

@@ -11,7 +11,7 @@ const createLoginService = async (data: ILogin): Promise<string> => {
     if(!user) {
     throw new AppError("Invalid credentials", 401)
     }
-    
+    console.log(user)
     const passwordCompare = await compare(data.password, user.password)
 
     if(!passwordCompare) {

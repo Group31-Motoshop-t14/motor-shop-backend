@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createUserController, listUserController, updateUserController } from "../controllers";
+import { createUserController, listAllUsersController, listUserController, updateUserController } from "../controllers";
 import {
     validateBodyMiddleware, 
     validateCpfMiddleware, 
@@ -27,7 +27,12 @@ userRoutes.get(
 userRoutes.get(
     "",    
     validateTokenMiddleware,
-    listUserController
+    listAllUsersController
+)
+userRoutes.delete(
+    "",    
+    validateTokenMiddleware,
+    listAllUsersController
 )
 
 userRoutes.patch(

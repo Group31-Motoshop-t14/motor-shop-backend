@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
-import { ICreateUserResponse } from "../interfaces";
-import { createUserService } from "../services";
+import { ICreateUserResponse, IUpdateUserResponse } from "../interfaces";
+import { createUserService, listUserService } from "../services";
+import { Users } from ".prisma/client";
 
 const createUserController = async (req: Request, res: Response) => {
     const newUser: ICreateUserResponse = await createUserService(req.body)
@@ -8,7 +9,9 @@ const createUserController = async (req: Request, res: Response) => {
     return res.status(201).json(newUser)
 }
 const listUserController = async (req: Request, res: Response) => {
-    return res.status(200).json({message: "List the current logged user"})
+    const user: IUpdateUserResponse = await listUserService(res.locals.id)
+
+    return res.status(200).json(user)
 }
 
 const listAllUsersController = async (req: Request, res: Response) => {
