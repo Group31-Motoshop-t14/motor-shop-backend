@@ -1,7 +1,11 @@
 import { Request, Response } from "express";
+import { createUserService } from "../services/user.services";
+import { ICreateUserResponse } from "../interfaces";
 
 const createUserController = async (req: Request, res: Response) => {
-    return res.status(201).json({message: "Creates a new user"})
+    const newUser: ICreateUserResponse = await createUserService(req.body)
+
+    return res.status(201).json(newUser)
 }
 const listUserController = async (req: Request, res: Response) => {
     return res.status(200).json({message: "List the current logged user"})

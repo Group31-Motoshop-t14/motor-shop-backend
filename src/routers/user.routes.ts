@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createUserController } from "../controllers";
+import { createUserController, listUserController } from "../controllers";
 import { validateBodyMiddleware } from "../middlewares";
 import { createUserSchema } from "../schemas";
 
@@ -9,6 +9,10 @@ userRoutes.post(
     "",
     validateBodyMiddleware(createUserSchema),
     createUserController
+)
+userRoutes.get(
+    "",    
+    listUserController
 )
 
 export {

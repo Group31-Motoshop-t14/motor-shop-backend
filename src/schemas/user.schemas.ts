@@ -1,12 +1,12 @@
 import { z } from "zod";
 
 const addressSchema = z.object({
-    zip_code: z.string(),
-    state: z.string(),
-    city: z.string(),
-    street: z.string(),
-    number: z.string(),
-    complement: z.string(),
+    zipCode: z.string().length(8),
+    state: z.string().length(2),
+    city: z.string().max(100),
+    street: z.string().max(100),
+    number: z.string().max(50),
+    complement: z.string().max(100),
 })
 
 const userSchema = z.object({
@@ -15,20 +15,31 @@ const userSchema = z.object({
     cpf: z.string().length(11),
     password: z.string().min(6).max(120),
     phone: z.string().length(13),
-    birth_date: z.date(),
+    birth_date: z.string(),
     description: z.string(),
     is_advertiser: z.boolean().default(false),
 })
 
-const createUserSchema = userSchema.extend({
+const createUserSchema = userSchema.extend({    
+    zipCode: z.string(),
+    state: z.string(),
+    city: z.string(),
+    street: z.string(),
+    number: z.string(),
+    complement: z.string()
+})
+
+const createUserSchemaResponse = z.object({
+    name: z.string().min(3).max(100),
+    email: z.string().max(100).email(),
+    cpf: z.string().length(11),    
+    phone: z.string().length(13),
+    birth_date: z.string(),
+    description: z.string(),
+    is_advertiser: z.boolean().default(false),
     address: addressSchema
 })
 
-const createUserSchemaResponse = createUserSchema.omit({password: true}).extend({
-    created_at: z.string(),
-    updated_at: z.string(),
-    deleted_at: z.string(),
-})
 export {
     userSchema,
     addressSchema,
