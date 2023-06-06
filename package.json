@@ -29,7 +29,7 @@
     "jsonwebtoken": "^9.0.0",
     "zod": "^3.21.4"
   },
-  "devDependencies": {
+  "devDependencies": {    
     "@prisma/client": "^4.15.0",
     "@types/bcryptjs": "^2.4.2",
     "@types/cors": "^2.8.13",

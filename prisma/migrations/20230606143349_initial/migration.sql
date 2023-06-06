@@ -12,7 +12,6 @@ CREATE TABLE "users" (
     "birth_date" TIMESTAMP(3) NOT NULL,
     "description" TEXT NOT NULL,
     "is_advertiser" BOOLEAN NOT NULL DEFAULT false,
-    "addressId" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "isDeleted" BOOLEAN NOT NULL DEFAULT false,
@@ -78,9 +77,6 @@ CREATE UNIQUE INDEX "users_email_key" ON "users"("email");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "users_cpf_key" ON "users"("cpf");
-
--- CreateIndex
-CREATE UNIQUE INDEX "users_addressId_key" ON "users"("addressId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "addresses_userId_key" ON "addresses"("userId");
