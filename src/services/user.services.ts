@@ -1,6 +1,6 @@
 import { Address, PrismaClient, Users } from "@prisma/client";
-import { IAddress, ICreateUser, ICreateUserResponse, IUser } from "../interfaces";
-import { addressSchema, createUserSchemaResponse, userSchema } from "../schemas";
+import { IAddress, ICreateUser, ICreateUserResponse, IUpdateUserResponse, IUser } from "../interfaces";
+import { addressSchema, createUserSchemaResponse, updateUserSchema, userSchema } from "../schemas";
 import { AppError } from "../errors";
 import { hashSync } from "bcryptjs";
 
@@ -14,7 +14,7 @@ const createUserService = async (data: ICreateUser): Promise<ICreateUserResponse
         data: {
             ...userData, 
             password: hashSync(userData.password, 9),
-            birth_date: new Date(userData.birth_date)
+            birthDate: new Date(userData.birthDate)
         }
     })
     
@@ -24,18 +24,41 @@ const createUserService = async (data: ICreateUser): Promise<ICreateUserResponse
             userId: newUser.id
         }
     })
-    
+
     const objResponse: ICreateUserResponse = {
         ...newUser,
-        birth_date: newUser.birth_date.toLocaleDateString(),
-        createdAt: newUser.createdAt.toLocaleDateString(),
-        updatedAt: newUser.updatedAt.toLocaleDateString(),
+        birthDate: newUser.birthDate.toISOString(),
+        createdAt: newUser.createdAt.toISOString(),
+        updatedAt: newUser.updatedAt.toISOString(),
         address: {...userAddress}
     }
-
+    
     return createUserSchemaResponse.parse(objResponse)
 }
 
+const listUserService = async (userId: string): Promise<IUpdateUserResponse> => {
+    const prisma = new PrismaClient()
+    const user: Users | null = await prisma.users.findFirstOrThrow({where: {id: userId}})
+
+    return updateUserSchema.parse({
+        ...user, 
+        birthDate: String(user.birthDate), 
+        createdAt: String(user.createdAt), 
+        updatedAt: String(user.updatedAt)
+    })
+}
+const listAllUsersService = async (): Promise<any> => {
+
+    return "asd"
+}
+
+const deleteUserService = async (): Promise<any> => {
+
+    return "asd"
+}
 export {
-    createUserService
+    createUserService,
+    listUserService,
+    listAllUsersService,
+    deleteUserService
 }
