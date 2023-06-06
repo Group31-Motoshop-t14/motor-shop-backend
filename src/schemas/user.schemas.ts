@@ -6,8 +6,13 @@ const addressSchema = z.object({
     city: z.string().max(100),
     street: z.string().max(100),
     number: z.string().max(50),
-    complement: z.string().max(100),
+    complement: z.string().max(100).nullable(),
 })
+
+const addressSchemaResponse = addressSchema.extend({
+    id: z.string(),    
+})
+
 
 const userSchema = z.object({
     name: z.string().min(3).max(100),
@@ -20,6 +25,12 @@ const userSchema = z.object({
     is_advertiser: z.boolean().default(false),
 })
 
+const userSchemaResponse = userSchema.extend({
+    id: z.string(),
+    createdAt: z.string(),
+    updatedAt: z.string()
+})
+
 const createUserSchema = userSchema.extend({    
     zipCode: z.string(),
     state: z.string(),
@@ -29,16 +40,9 @@ const createUserSchema = userSchema.extend({
     complement: z.string()
 })
 
-const createUserSchemaResponse = z.object({
-    name: z.string().min(3).max(100),
-    email: z.string().max(100).email(),
-    cpf: z.string().length(11),    
-    phone: z.string().length(13),
-    birth_date: z.string(),
-    description: z.string(),
-    is_advertiser: z.boolean().default(false),
-    address: addressSchema
-})
+const createUserSchemaResponse = userSchemaResponse.extend({    
+    address: addressSchemaResponse
+}).omit({password: true})
 
 export {
     userSchema,
