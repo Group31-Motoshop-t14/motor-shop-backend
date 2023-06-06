@@ -14,7 +14,7 @@ const createUserService = async (data: ICreateUser): Promise<ICreateUserResponse
         data: {
             ...userData, 
             password: hashSync(userData.password, 9),
-            birth_date: new Date(userData.birth_date)
+            birthDate: new Date(userData.birthDate)
         }
     })
     
@@ -27,7 +27,7 @@ const createUserService = async (data: ICreateUser): Promise<ICreateUserResponse
     
     const objResponse: ICreateUserResponse = {
         ...newUser,
-        birth_date: newUser.birth_date.toLocaleDateString(),
+        birthDate: newUser.birthDate.toLocaleDateString(),
         createdAt: newUser.createdAt.toLocaleDateString(),
         updatedAt: newUser.updatedAt.toLocaleDateString(),
         address: {...userAddress}

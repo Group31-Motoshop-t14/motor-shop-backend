@@ -20,9 +20,9 @@ const userSchema = z.object({
     cpf: z.string().length(11),
     password: z.string().min(6).max(120),
     phone: z.string().length(13),
-    birth_date: z.string(),
+    birthDate: z.string(),
     description: z.string(),
-    is_advertiser: z.boolean().default(false),
+    isAdvertiser: z.boolean().default(false),
 })
 
 const userSchemaResponse = userSchema.extend({
@@ -37,7 +37,7 @@ const createUserSchema = userSchema.extend({
     city: z.string(),
     street: z.string(),
     number: z.string(),
-    complement: z.string()
+    complement: z.string().nullable()
 })
 
 const createUserSchemaResponse = userSchemaResponse.extend({    
