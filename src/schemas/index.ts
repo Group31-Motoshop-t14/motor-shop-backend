@@ -8,11 +8,25 @@ import {
 
 import { createLoginSchema } from "./login.schemas";
 
+import {
+    carsSchema,
+    carsSchemaResponse,
+    carsSchemaUpdate,
+    carsImagesSchema,
+    carsImagesSchemaResponse
+} from "./cars.schemas";
+
 export {
     userSchema,
     addressSchema,
     createUserSchema,
     createUserSchemaResponse,
     createLoginSchema,
-    updateUserSchema
+    updateUserSchema,
+
+    carsSchema,
+    carsSchemaResponse,
+    carsSchemaUpdate,
+    carsImagesSchema,
+    carsImagesSchemaResponse
 }
