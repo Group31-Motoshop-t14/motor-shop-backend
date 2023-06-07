@@ -8,11 +8,27 @@ import {
 
 import { ILogin } from "./login.interfaces";
 
+import {
+    ICars,
+    ICarsResponse,
+    ICarsUpdate,
+    
+    ICarsImage,
+    ICarsImageResponse
+} from "./cars.inferfaces";
+
 export {
     IUser,
     IAddress,
     ICreateUser,
     ICreateUserResponse,
     IUpdateUserResponse,
-    ILogin
+    ILogin,
+
+    ICars,
+    ICarsResponse,
+    ICarsUpdate,
+    
+    ICarsImage,
+    ICarsImageResponse
 }

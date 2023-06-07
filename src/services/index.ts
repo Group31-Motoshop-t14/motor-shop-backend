@@ -6,11 +6,24 @@ import {
 } from "./user.services";
 
 import { createLoginService } from "./login.services";
+import { createCarsService, 
+    getCarsService, 
+    getCarsUserIdService, 
+    getCarsIdService,
+    updateCarsIdService,
+    deleteCarsIdService
+} from "./cars.services";
+
 
 export {
     createUserService,
-    listUserService,    
-    listAllUsersService,
-    deleteUserService,
-    createLoginService
+    createLoginService,
+    listUserService,
+
+    createCarsService,
+    getCarsService, 
+    getCarsUserIdService, 
+    getCarsIdService,
+    updateCarsIdService,
+    deleteCarsIdService
 }
