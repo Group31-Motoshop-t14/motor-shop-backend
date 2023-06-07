@@ -23,9 +23,9 @@ model Users {
   password      String    @db.VarChar(120)
   cpf           String    @db.VarChar(11) @unique
   phone         String    @db.VarChar(13)
-  birth_date    DateTime
+  birthDate    DateTime
   description   String @db.Text()
-  is_advertiser Boolean   @default(false)  
+  isAdvertiser Boolean   @default(false)  
   createdAt    DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
   isDeleted    Boolean @default(false)
@@ -62,7 +62,7 @@ model Cars {
   price        Float
   description  String   @db.Text()
   createdAt   DateTime @default(now())
-  is_published Boolean  @default(false)
+  isPublished Boolean  @default(false)
   coverImage  String   @db.Text()
   user         Users    @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId       String     

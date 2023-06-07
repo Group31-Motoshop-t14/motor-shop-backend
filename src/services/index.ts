@@ -1,4 +1,10 @@
-import { createUserService } from "./user.services";
+import { 
+    createUserService, 
+    listUserService,    
+    listAllUsersService,
+    deleteUserService
+} from "./user.services";
+
 import { createLoginService } from "./login.services";
 import { createCarsService, 
     getCarsService, 
@@ -12,9 +18,11 @@ import { createCarsService,
 export {
     createUserService,
     createLoginService,
+    listUserService,
+
     createCarsService,
-    getCarsService,
-    getCarsUserIdService,
+    getCarsService, 
+    getCarsUserIdService, 
     getCarsIdService,
     updateCarsIdService,
     deleteCarsIdService

@@ -13,7 +13,7 @@ const ensureIdCarExistsMiddleware = async (req: Request, res: Response, next: Ne
     })
 
     if(!carsData){
-        throw new AppError("car id not exists", 404)
+        throw new AppError("Car id not exists", 404)
     }
     
     return next()
