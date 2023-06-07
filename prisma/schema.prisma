@@ -85,9 +85,9 @@ model Comment {
 }
 
 model CarImages {
-  id    BigInt @id
-  url   String @db.Text()
-  car   Cars   @relation(fields: [carId], references: [id])
+  id    String @id @default(uuid())
+  url   String
+  car   Cars   @relation(fields: [carId], references: [id], onDelete: Cascade)
   carId String 
 
   @@map("carImages")

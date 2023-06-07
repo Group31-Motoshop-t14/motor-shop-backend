@@ -1,22 +1,50 @@
-import { CarImages, Cars, PrismaClient } from "@prisma/client";
-import { ICars, ICarsImage, ICarsResponse, ICarsUpdate, IUser } from "../interfaces";
-import { carsSchema, carsSchemaResponse, carsSchemaUpdate } from "../schemas";
+import { Cars, PrismaClient } from "@prisma/client";
+import { ICarImage, ICarImageResponse, ICars, ICarsCreate, ICarsCreateResponse, ICarsUpdate } from "../interfaces";
+import { carsSchema, carsSchemaResponseWithImage, imageSchema } from "../schemas";
 import { AppError } from "../errors";
 
-const createCarsService = async (data: ICars, userId: string): Promise<ICarsResponse> => {
+const createCarsService = async (data: ICarsCreate, userId: string): Promise<ICarsCreateResponse> => {
 
     const prisma = new PrismaClient()
 
-    const carsData: ICars = carsSchema.parse(data)
+    if(data.url.length === 0){
+        throw new AppError("At least one image for gallery is required", 400)
 
-    const newCar: ICars = await prisma.cars.create({
+    }
+
+    data.url.forEach((urls) => {
+        if (urls === ""){
+            throw new AppError("At least one image for gallery is required", 400)
+        }
+    })
+
+    const carsData: ICars = carsSchema.parse(data)
+    const imageData: ICarImage = imageSchema.parse(data)
+
+    const newCar: Cars = await prisma.cars.create({
         data: {
             ...carsData,
             userId: userId
         }
     })
 
-    return carsSchemaResponse.parse(newCar)
+    const gallery = await Promise.all(imageData.url.map(async(urls) => {
+        const imageCar: ICarImageResponse = await prisma.carImages.create({
+            data: {
+                url: urls,
+                carId: newCar.id
+            }
+        })
+        return {...imageCar}
+    }))
+
+
+    const newObj: ICarsCreateResponse = {
+        ...newCar,
+        images: gallery
+    }
+
+    return carsSchemaResponseWithImage.parse(newObj)
 
 }
 
@@ -24,7 +52,18 @@ const getCarsService = async (): Promise<ICars[]> => {
 
     const prisma = new PrismaClient()
 
-    const cars: ICars[] = await prisma.cars.findMany()
+    const cars: ICars[] = await prisma.cars.findMany({
+        include: {
+            user: {
+                select: {
+                    name: true,
+                    email: true,
+                    description: true
+                }
+            },
+            carImages: true
+        }
+    })
 
     return cars
 }
@@ -36,6 +75,16 @@ const getCarsUserIdService = async (userId: string): Promise<ICars[]> => {
     const cars: ICars[] = await prisma.cars.findMany({
         where: {
             userId: userId
+        },
+        include: {
+            user: {
+                select: {
+                    name: true,
+                    email: true,
+                    description: true
+                }
+            },
+            carImages: true
         }
     })
 
@@ -49,6 +98,16 @@ const getCarsIdService = async (carId: string): Promise<ICars> => {
     const cars: any = await prisma.cars.findUnique({
         where: {
             id: carId
+        },
+        include: {
+            user: {
+                select: {
+                    name: true,
+                    email: true,
+                    description: true
+                }
+            },
+            carImages: true
         }
     })
 
@@ -69,7 +128,7 @@ const updateCarsIdService = async (carId: string, data: any, userId: string): Pr
         throw new AppError("You can only update your ads", 403)
     }
 
-    const cars: ICars = await prisma.cars.update({
+    const cars: any = await prisma.cars.update({
         where: {
             id: carId
         },

@@ -12,9 +12,11 @@ import {
     ICars,
     ICarsResponse,
     ICarsUpdate,
+    ICarsCreate,
+    ICarsCreateResponse,
+    ICarImage,
+    ICarImageResponse
     
-    ICarsImage,
-    ICarsImageResponse
 } from "./cars.inferfaces";
 
 export {
@@ -28,7 +30,8 @@ export {
     ICars,
     ICarsResponse,
     ICarsUpdate,
-    
-    ICarsImage,
-    ICarsImageResponse
+    ICarsCreate,
+    ICarsCreateResponse,
+    ICarImage,
+    ICarImageResponse
 }

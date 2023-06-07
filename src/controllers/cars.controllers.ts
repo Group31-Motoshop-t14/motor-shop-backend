@@ -1,11 +1,10 @@
 import { Request, Response } from "express";
-import { ICars, ICarsResponse, ICarsUpdate } from "../interfaces";
+import { ICars, ICarsCreateResponse, ICarsResponse, ICarsUpdate } from "../interfaces";
 import { createCarsService, deleteCarsIdService, getCarsIdService, getCarsService, getCarsUserIdService, updateCarsIdService } from "../services";
-import { Cars } from "@prisma/client";
 
 const createCarsController = async (req: Request, res: Response) => {
     const userId = res.locals.id
-    const newCar: ICarsResponse = await createCarsService(req.body, userId)
+    const newCar: ICarsCreateResponse = await createCarsService(req.body, userId)
     return res.status(201).json(newCar)
 }
 

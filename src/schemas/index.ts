@@ -12,8 +12,10 @@ import {
     carsSchema,
     carsSchemaResponse,
     carsSchemaUpdate,
-    carsImagesSchema,
-    carsImagesSchemaResponse
+    carsSchemaResponseWithImage,
+    createCarSchema,
+    imageSchema,
+    imageSchemaResponse
 } from "./cars.schemas";
 
 export {
@@ -27,6 +29,8 @@ export {
     carsSchema,
     carsSchemaResponse,
     carsSchemaUpdate,
-    carsImagesSchema,
-    carsImagesSchemaResponse
+    carsSchemaResponseWithImage,
+    createCarSchema,
+    imageSchema,
+    imageSchemaResponse
 }

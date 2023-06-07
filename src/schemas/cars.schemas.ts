@@ -14,11 +14,29 @@ const carsSchema = z.object({
     coverImage: z.string(),
 })
 
+
 const carsSchemaResponse = carsSchema.extend({
     id: z.string(),
     createdAt: z.date(),
     isPublished: z.boolean().default(false),
-    userId: z.string()
+})
+
+const imageSchema = z.object({
+    url: z.array(z.string())
+})
+
+const imageSchemaResponse = z.object({
+    url: z.string(),
+    id: z.string(),
+    carId: z.string()
+})
+
+const carsSchemaResponseWithImage = carsSchemaResponse.extend({
+    images: z.array(imageSchemaResponse)
+})
+
+const createCarSchema = carsSchema.extend({
+    url: z.array(z.string())
 })
 
 const carsSchemaUpdate = carsSchemaResponse.partial().omit({
@@ -27,19 +45,12 @@ const carsSchemaUpdate = carsSchemaResponse.partial().omit({
     userId: true
 })
 
-const carsImagesSchema = z.object({
-    url: z.string(),
-    carId: z.string()
-})
-
-const carsImagesSchemaResponse = carsImagesSchema.extend({
-    id: z.string()
-})
-
 export {
     carsSchema,
     carsSchemaResponse,
     carsSchemaUpdate,
-    carsImagesSchema,
-    carsImagesSchemaResponse
+    carsSchemaResponseWithImage,
+    createCarSchema,
+    imageSchema,
+    imageSchemaResponse
 }
