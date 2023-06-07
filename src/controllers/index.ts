@@ -2,8 +2,9 @@ import {
     createUserController,
     listAllUsersController,
     listUserController,
+    deleteUserController,
+    recoverUserController,
     updateUserController,
-    deleteUserController
 } from "./user.controllers";
 
 import { createLoginController } from "./login.controllers";
@@ -21,8 +22,9 @@ export {
     createUserController,
     listAllUsersController,
     listUserController,
-    updateUserController,
     deleteUserController,
+    recoverUserController,
+    updateUserController,
     createLoginController,
 
     createCarsController,

@@ -3,7 +3,11 @@ import {
     addressSchema,
     createUserSchema,
     createUserSchemaResponse,
-    updateUserSchema
+    updateUserSchema,
+    updateUserSchemaResponse,
+    userListSchema,
+    userPartialSchema,
+    addressPartialSchema
 } from "./user.schemas";
 
 import { createLoginSchema } from "./login.schemas";
@@ -23,6 +27,10 @@ export {
     createUserSchemaResponse,
     createLoginSchema,
     updateUserSchema,
+    updateUserSchemaResponse,
+    userListSchema,
+    userPartialSchema,
+    addressPartialSchema,
 
     carsSchema,
     carsSchemaResponse,

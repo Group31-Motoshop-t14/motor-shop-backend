@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { AppError } from "../errors";
 
 const addressSchema = z.object({
     zipCode: z.string().length(8),
@@ -24,6 +25,16 @@ const userSchema = z.object({
     isAdvertiser: z.boolean().default(false),
 })
 
+const userListSchema = z.object({
+    name: z.string().min(3).max(100),
+    email: z.string().max(100).email(),
+    cpf: z.string().length(11),
+    phone: z.string().length(13),
+    birthDate: z.date(),
+    description: z.string(),
+    isAdvertiser: z.boolean().default(false),
+})
+
 const userSchemaResponse = userSchema.extend({
     id: z.string(),
     createdAt: z.string(),
@@ -43,12 +54,27 @@ const createUserSchemaResponse = userSchemaResponse.extend({
     address: addressSchemaResponse
 })
 
-const updateUserSchema = userSchemaResponse.partial()
+const updateUserSchema = createUserSchema.partial().refine(
+    (data) => {
+        if(Object.keys(data).length === 0) {
+            const keys: string = Object.keys(createUserSchema.shape).join(", ")
+            throw new AppError(`At least one key is required: ${keys}`, 400)
+        }
+        return true
+    })
+
+const updateUserSchemaResponse = createUserSchemaResponse.partial()
+const userPartialSchema = userSchema.partial()
+const addressPartialSchema = addressSchema.partial()
 
 export {
     userSchema,
     addressSchema,
     createUserSchema,
     createUserSchemaResponse,
-    updateUserSchema
+    updateUserSchema,
+    updateUserSchemaResponse,
+    userListSchema,
+    userPartialSchema,
+    addressPartialSchema
 }
