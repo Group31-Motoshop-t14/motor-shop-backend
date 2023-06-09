@@ -95,7 +95,7 @@ const getCarsIdService = async (carId: string): Promise<ICars> => {
 
     const prisma = new PrismaClient()
 
-    const cars: any = await prisma.cars.findUnique({
+    const cars: Cars | null = await prisma.cars.findUnique({
         where: {
             id: carId
         },
@@ -111,24 +111,24 @@ const getCarsIdService = async (carId: string): Promise<ICars> => {
         }
     })
 
-    return cars
+    return cars!
 }
 
 const updateCarsIdService = async (carId: string, data: any, userId: string): Promise<ICarsUpdate> => {
 
     const prisma = new PrismaClient()
 
-    const cars: any = await prisma.cars.findFirst({
+    const cars: Cars | null = await prisma.cars.findFirst({
         where: {
             id: carId
         }
     })
 
-    if(cars.userId != userId){
+    if(cars!.userId != userId){
         throw new AppError("You can only update your ads", 403)
     }
 
-    const updateCars: any = await prisma.cars.update({
+    const updateCars: Cars = await prisma.cars.update({
         where: {
             id: carId
         },
@@ -148,13 +148,13 @@ const deleteCarsIdService = async (carId: string, userId: string): Promise<void>
 
     const prisma = new PrismaClient()
 
-    const carsData: any = await prisma.cars.findFirst({
+    const carsData: Cars | null = await prisma.cars.findFirst({
         where: {
             id: carId
         }
     })
 
-    if(carsData.userId != userId){
+    if(carsData!.userId != userId){
         throw new AppError("You can only delete your ads", 403)
     }
 

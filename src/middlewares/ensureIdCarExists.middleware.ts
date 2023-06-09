@@ -1,4 +1,4 @@
-import { PrismaClient, Users } from "@prisma/client";
+import { Cars, PrismaClient, Users } from "@prisma/client";
 import { NextFunction, Request, Response } from "express";
 import { AppError } from "../errors";
 
@@ -6,7 +6,7 @@ const ensureIdCarExistsMiddleware = async (req: Request, res: Response, next: Ne
 
     const prisma = new PrismaClient()
 
-    const carsData: any = await prisma.cars.findFirst({
+    const carsData: Cars | null = await prisma.cars.findFirst({
         where: {
             id: req.params.id
         }
