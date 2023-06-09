@@ -11,7 +11,7 @@ const carsSchema = z.object({
     fipePrice: z.number().nonnegative(),
     price: z.number().min(50000),
     description: z.string().min(10).nonempty(),
-    coverImage: z.string().nonempty(),
+    coverImage: z.string().url().nonempty(),
 })
 
 
@@ -22,11 +22,11 @@ const carsSchemaResponse = carsSchema.extend({
 })
 
 const imageSchema = z.object({
-    url: z.array(z.string())
+    url: z.array(z.string().url())
 })
 
 const imageSchemaResponse = z.object({
-    url: z.string(),
+    url: z.string().url(),
     id: z.string(),
     carId: z.string()
 })
@@ -36,7 +36,7 @@ const carsSchemaResponseWithImage = carsSchemaResponse.extend({
 })
 
 const createCarSchema = carsSchema.extend({
-    url: z.array(z.string())
+    url: z.array(z.string().url())
 })
 
 const carsSchemaUpdate = carsSchemaResponseWithImage.partial().omit({
