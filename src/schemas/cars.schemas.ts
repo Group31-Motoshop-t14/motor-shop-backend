@@ -39,16 +39,20 @@ const createCarSchema = carsSchema.extend({
     url: z.array(z.string())
 })
 
-const carsSchemaUpdate = carsSchemaResponse.partial().omit({
+const carsSchemaUpdate = createCarSchema.partial()
+
+const carsSchemaUpdateResponse = carsSchemaResponseWithImage.partial().omit({
     id: true,
     createdAt: true,
     userId: true
 })
 
+
 export {
     carsSchema,
     carsSchemaResponse,
     carsSchemaUpdate,
+    carsSchemaUpdateResponse,
     carsSchemaResponseWithImage,
     createCarSchema,
     imageSchema,

@@ -1,5 +1,5 @@
-import { Cars, PrismaClient } from "@prisma/client";
-import { ICarImage, ICarImageResponse, ICars, ICarsCreate, ICarsCreateResponse, ICarsUpdate } from "../interfaces";
+import { CarImages, Cars, PrismaClient } from "@prisma/client";
+import { ICarImage, ICarImageResponse, ICars, ICarsCreate, ICarsCreateResponse, ICarsUpdate, ICarsUpdateResponse } from "../interfaces";
 import { carsSchema, carsSchemaResponseWithImage, imageSchema } from "../schemas";
 import { AppError } from "../errors";
 
@@ -14,7 +14,7 @@ const createCarsService = async (data: ICarsCreate, userId: string): Promise<ICa
 
     data.url.forEach((urls) => {
         if (urls === ""){
-            throw new AppError("At least one image for gallery is required", 400)
+            throw new AppError("Gallery images cannot be an empty strings", 400)
         }
     })
 
@@ -114,30 +114,33 @@ const getCarsIdService = async (carId: string): Promise<ICars> => {
     return cars
 }
 
-const updateCarsIdService = async (carId: string, data: any, userId: string): Promise<ICarsUpdate> => {
+const updateCarsIdService = async (carId: string, data: any, userId: string): Promise<ICarsUpdateResponse> => {
 
     const prisma = new PrismaClient()
 
-    const carsData: any = await prisma.cars.findFirst({
+    const cars: any = await prisma.cars.findFirst({
         where: {
             id: carId
         }
     })
 
-    if(carsData.userId != userId){
+    if(cars.userId != userId){
         throw new AppError("You can only update your ads", 403)
     }
 
-    const cars: any = await prisma.cars.update({
+    const updateCars: ICarsUpdate = await prisma.cars.update({
         where: {
             id: carId
+        },
+        include: {
+            carImages: true
         },
         data: {
             ...data
         }
     })
 
-    return cars
+    return updateCars
 
 }
 

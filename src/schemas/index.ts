@@ -12,6 +12,7 @@ import {
     carsSchema,
     carsSchemaResponse,
     carsSchemaUpdate,
+    carsSchemaUpdateResponse,
     carsSchemaResponseWithImage,
     createCarSchema,
     imageSchema,
@@ -28,6 +29,7 @@ export {
 
     carsSchema,
     carsSchemaResponse,
+    carsSchemaUpdateResponse,
     carsSchemaUpdate,
     carsSchemaResponseWithImage,
     createCarSchema,
