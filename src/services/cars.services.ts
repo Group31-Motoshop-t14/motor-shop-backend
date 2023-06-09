@@ -114,7 +114,7 @@ const getCarsIdService = async (carId: string): Promise<ICars> => {
     return cars
 }
 
-const updateCarsIdService = async (carId: string, data: any, userId: string): Promise<ICarsUpdateResponse> => {
+const updateCarsIdService = async (carId: string, data: any, userId: string): Promise<ICarsUpdate> => {
 
     const prisma = new PrismaClient()
 
@@ -128,7 +128,7 @@ const updateCarsIdService = async (carId: string, data: any, userId: string): Pr
         throw new AppError("You can only update your ads", 403)
     }
 
-    const updateCars: ICarsUpdate = await prisma.cars.update({
+    const updateCars: any = await prisma.cars.update({
         where: {
             id: carId
         },
