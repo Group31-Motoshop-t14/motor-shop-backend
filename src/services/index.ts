@@ -1,8 +1,10 @@
 import { 
     createUserService, 
+    updateUserService,
     listUserService,    
     listAllUsersService,
-    deleteUserService
+    deleteUserService,
+    recoverUserService
 } from "./user.services";
 
 import { createLoginService } from "./login.services";
@@ -16,9 +18,13 @@ import { createCarsService,
 
 
 export {
-    createUserService,
     createLoginService,
+    createUserService,
+    updateUserService,
     listUserService,
+    listAllUsersService,
+    deleteUserService,
+    recoverUserService,
 
     createCarsService,
     getCarsService, 

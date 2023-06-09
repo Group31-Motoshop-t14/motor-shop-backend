@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createUserController, listAllUsersController, listUserController, updateUserController } from "../controllers";
+import { createUserController, deleteUserController, listAllUsersController, listUserController, recoverUserController, updateUserController } from "../controllers";
 import {
     validateBodyMiddleware, 
     validateCpfMiddleware, 
@@ -7,7 +7,7 @@ import {
     validateTokenMiddleware
 } from "../middlewares";
 
-import { createUserSchema, updateUserSchema } from "../schemas";
+import { createLoginSchema, createUserSchema, updateUserSchema } from "../schemas";
 
 const userRoutes: Router = Router()
 
@@ -25,14 +25,21 @@ userRoutes.get(
 )
 
 userRoutes.get(
-    "",    
+    "/all",    
     validateTokenMiddleware,
     listAllUsersController
 )
+
 userRoutes.delete(
     "",    
     validateTokenMiddleware,
-    listAllUsersController
+    deleteUserController
+)
+
+userRoutes.put(
+    "",    
+    validateBodyMiddleware(createLoginSchema),
+    recoverUserController
 )
 
 userRoutes.patch(

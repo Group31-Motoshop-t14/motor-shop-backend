@@ -1,8 +1,10 @@
 import { Address, PrismaClient, Users } from "@prisma/client";
-import { IAddress, ICreateUser, ICreateUserResponse, IUpdateUserResponse, IUser } from "../interfaces";
-import { addressSchema, createUserSchemaResponse, updateUserSchema, userSchema } from "../schemas";
+import { IAddress, ICreateUser, ICreateUserResponse, ILogin, IUpdateUserResponse, IUser } from "../interfaces";
+import { addressPartialSchema, addressSchema, createUserSchemaResponse, updateUserSchema, userListSchema, userPartialSchema, userSchema } from "../schemas";
 import { AppError } from "../errors";
 import { hashSync } from "bcryptjs";
+import { IAddressPartial, IListUser, IUpdateUser } from "../interfaces/user.interfaces";
+import jwt from "jsonwebtoken"
 
 const prisma = new PrismaClient()
 
@@ -35,30 +37,103 @@ const createUserService = async (data: ICreateUser): Promise<ICreateUserResponse
     
     return createUserSchemaResponse.parse(objResponse)
 }
+const updateUserService = async (data: IUpdateUser, userId: string): Promise<any> => {   
+    const userData: IUpdateUser = userPartialSchema.parse(data)
+    const addressData: IAddressPartial = addressPartialSchema.parse(data)
+    
+    const oldDataUser: Users | null = await prisma.users.findFirst({where: {id: userId}})
+    const oldDataAddress: Address | null = await prisma.address.findFirst({where: {userId: userId}})
+    if(Object.keys(userData).length > 0) {
+        await prisma.users.update({
+            where: {id: userId}, 
+            data: {
+                name: userData.name ? userData.name :  oldDataUser!.name,
+                email: userData.email ? userData.email :  oldDataUser!.email,
+                password: userData.password ? hashSync(userData.password, 9) :  oldDataUser!.password,
+                phone: userData.phone ? userData.phone :  oldDataUser!.phone,
+                birthDate: userData.birthDate ? new Date(userData.birthDate) :  oldDataUser!.birthDate,
+                description: userData.description ? userData.description :  oldDataUser!.description,
+                isAdvertiser: userData.isAdvertiser ? userData.isAdvertiser :  oldDataUser!.isAdvertiser
+            }
+        })
+
+    }
+    
+    if(Object.keys(addressData).length > 0) {
+        await prisma.address.update({
+            where: {userId: userId}, 
+            data: {
+                zipCode: addressData.zipCode ? addressData.zipCode :  oldDataAddress!.zipCode,
+                state: addressData.state ? addressData.state :  oldDataAddress!.state,
+                city: addressData.city ? addressData.city :  oldDataAddress!.city,
+                street: addressData.street ? addressData.street :  oldDataAddress!.street,
+                number: addressData.number ? addressData.number :  oldDataAddress!.number,
+                complement: addressData.complement ? addressData.complement :  oldDataAddress!.complement,
+            }
+        })
+    }
+    
+    const newUser: Users | null = await prisma.users.findFirst({where: {id: userId}})
+    const newAddress: Address | null = await prisma.address.findFirst({where: {userId: userId}})
+    
+    const objResponse = {
+        ...newUser,
+        birthDate: newUser!.birthDate.toISOString(),
+        createdAt: newUser!.createdAt.toISOString(),
+        updatedAt: newUser!.updatedAt.toISOString(),
+        address: {...newAddress!}
+    }
+    
+    return createUserSchemaResponse.parse(objResponse)
+}
 
 const listUserService = async (userId: string): Promise<IUpdateUserResponse> => {
-    const prisma = new PrismaClient()
     const user: Users | null = await prisma.users.findFirstOrThrow({where: {id: userId}})
 
     return updateUserSchema.parse({
         ...user, 
-        birthDate: String(user.birthDate), 
-        createdAt: String(user.createdAt), 
-        updatedAt: String(user.updatedAt)
+        birthDate: user.birthDate.toISOString(),
+        createdAt: user.createdAt.toISOString(),
+        updatedAt: user.updatedAt.toISOString()
     })
 }
-const listAllUsersService = async (): Promise<any> => {
-
-    return "asd"
+const listAllUsersService = async (): Promise<IListUser[]> => {
+    const allUsers: Users[] = await prisma.users.findMany()
+    const parsedUsers: IListUser[] = userListSchema.array().parse(allUsers)
+    
+    return parsedUsers
 }
 
-const deleteUserService = async (): Promise<any> => {
-
-    return "asd"
+const deleteUserService = async (userId: string): Promise<void> => {
+    await prisma.users.update({
+        where: {id: userId}, 
+        data: {isDeleted: true}
+    })
 }
+const recoverUserService = async (token: string, userEmail: string): Promise<void> => {
+    const tokenResponse = {isDeleted: false}
+    jwt.verify(token, process.env.SECRET_KEY!, async (error, decoded: any) => {
+        if(error) {
+            throw new AppError(error.message, 401)
+        }    
+        tokenResponse.isDeleted = decoded.isDeleted
+    })    
+    if(!tokenResponse.isDeleted) {
+        throw new AppError("This user is already active", 400)
+    }
+
+    await prisma.users.update({
+        where: {email: userEmail}, 
+        data: {isDeleted: false}
+    })
+  
+}
+
 export {
     createUserService,
+    updateUserService,
     listUserService,
     listAllUsersService,
-    deleteUserService
+    deleteUserService,
+    recoverUserService
 }

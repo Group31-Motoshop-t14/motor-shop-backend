@@ -1,7 +1,18 @@
-import { Request, Response } from "express";
-import { ICreateUserResponse, IUpdateUserResponse } from "../interfaces";
-import { createUserService, listUserService } from "../services";
-import { Users } from ".prisma/client";
+import { NextFunction, Request, Response } from "express";
+import { ICreateUserResponse, IUpdateUserResponse, IUser } from "../interfaces";
+import { 
+    createLoginService,
+    createUserService,
+    deleteUserService,
+    listAllUsersService,
+    listUserService,
+    recoverUserService,
+    updateUserService
+} from "../services";
+
+import { IListUser } from "../interfaces/user.interfaces";
+import { validateTokenMiddleware } from "../middlewares";
+import { AppError } from "../errors";
 
 const createUserController = async (req: Request, res: Response) => {
     const newUser: ICreateUserResponse = await createUserService(req.body)
@@ -15,21 +26,30 @@ const listUserController = async (req: Request, res: Response) => {
 }
 
 const listAllUsersController = async (req: Request, res: Response) => {
-    return res.status(200).json({message: "List all users"})
+    const allUsers: IListUser[] = await listAllUsersService()
+    return res.status(200).json(allUsers)
 }
 
 const updateUserController = async (req: Request, res: Response) => {
-    return res.status(200).json({message: "Updates a user"})
+    const updatedUser: ICreateUserResponse = await updateUserService(req.body, res.locals.id)
+    return res.status(200).json(updatedUser)
 }
 
 const deleteUserController = async (req: Request, res: Response) => {
-    return res.status(204).json({message: "Deletes a user"})
+    await deleteUserService(res.locals.id)
+    return res.status(204).json()
+}
+const recoverUserController = async (req: Request, res: Response, next: NextFunction) => {
+    const userToken: string = await createLoginService(req.body)
+    await recoverUserService(userToken, req.body.email)
+    return res.status(204).json()
 }
 
 export {
     createUserController,
     listAllUsersController,
     listUserController,
+    deleteUserController,
+    recoverUserController,
     updateUserController,
-    deleteUserController
 }

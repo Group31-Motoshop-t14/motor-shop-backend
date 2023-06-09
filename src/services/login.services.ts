@@ -11,7 +11,6 @@ const createLoginService = async (data: ILogin): Promise<string> => {
     if(!user) {
     throw new AppError("Invalid credentials", 401)
     }
-    console.log(user)
     const passwordCompare = await compare(data.password, user.password)
 
     if(!passwordCompare) {
@@ -20,7 +19,9 @@ const createLoginService = async (data: ILogin): Promise<string> => {
 
     const token: string = jwt.sign(
         {
-            isAdvertiser: user.isAdvertiser
+            name: user.name,
+            isDeleted: user.isDeleted,
+            isAdvertiser: user.isAdvertiser,
         },
         process.env.SECRET_KEY!,
         {

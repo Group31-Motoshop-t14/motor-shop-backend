@@ -19,10 +19,11 @@ const validateTokenMiddleware = (
         }
         res.locals = {
             id: decoded.sub,
-            isAdvertiser: decoded.isAdvertiser
+            name: decoded.name,
+            isAdvertiser: decoded.isAdvertiser,
+            isDeleted: decoded.isDeleted
         }
     })
-
     return next()
 }
 
