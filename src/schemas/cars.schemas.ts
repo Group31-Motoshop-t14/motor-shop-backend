@@ -2,16 +2,16 @@ import { Fuel } from "@prisma/client";
 import { z } from "zod";
 
 const carsSchema = z.object({
-    brand: z.string().max(150),
-    model: z.string().max(150),
-    year: z.string().min(4).max(4),
+    brand: z.string().max(150).nonempty(),
+    model: z.string().max(150).nonempty(),
+    year: z.string().min(4).max(4).nonempty(),
     fuelType: z.nativeEnum(Fuel),
     mileage: z.number().int().nonnegative(),
-    color: z.string().max(150),
+    color: z.string().min(4).max(150).nonempty(),
     fipePrice: z.number().nonnegative(),
-    price: z.number(),
-    description: z.string(),
-    coverImage: z.string(),
+    price: z.number().min(50000),
+    description: z.string().min(10).nonempty(),
+    coverImage: z.string().nonempty(),
 })
 
 
