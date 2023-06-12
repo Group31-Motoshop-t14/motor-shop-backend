@@ -2,10 +2,9 @@ import { CarImages, Cars, PrismaClient } from "@prisma/client";
 import { ICarImage, ICarImageCreate, ICarImageResponse, ICarImageUpdate, ICars, ICarsCreate, ICarsCreateResponse, ICarsUpdate } from "../interfaces";
 import { carsSchema, carsSchemaResponseWithImage, imageSchema } from "../schemas";
 import { AppError } from "../errors";
+import { prisma } from "../server";
 
 const createCarsService = async (data: ICarsCreate, userId: string): Promise<ICarsCreateResponse> => {
-
-    const prisma = new PrismaClient()
 
     if(data.url.length === 0){
         throw new AppError("At least one image for gallery is required", 400)
@@ -50,8 +49,6 @@ const createCarsService = async (data: ICarsCreate, userId: string): Promise<ICa
 
 const getCarsService = async (): Promise<ICars[]> => {
 
-    const prisma = new PrismaClient()
-
     const cars: ICars[] = await prisma.cars.findMany({
         include: {
             user: {
@@ -69,8 +66,6 @@ const getCarsService = async (): Promise<ICars[]> => {
 }
 
 const getCarsUserIdService = async (userId: string): Promise<ICars[]> => {
-
-    const prisma = new PrismaClient()
 
     const cars: ICars[] = await prisma.cars.findMany({
         where: {
@@ -93,8 +88,6 @@ const getCarsUserIdService = async (userId: string): Promise<ICars[]> => {
 
 const getCarsIdService = async (carId: string): Promise<ICars> => {
 
-    const prisma = new PrismaClient()
-
     const cars: Cars | null = await prisma.cars.findUnique({
         where: {
             id: carId
@@ -115,8 +108,6 @@ const getCarsIdService = async (carId: string): Promise<ICars> => {
 }
 
 const updateCarsIdService = async (carId: string, data: ICarsUpdate, userId: string): Promise<ICarsUpdate> => {
-
-    const prisma = new PrismaClient()
 
     const carsData: Cars | null = await prisma.cars.findFirst({
         where: {
@@ -153,8 +144,6 @@ const updateCarsIdService = async (carId: string, data: ICarsUpdate, userId: str
 
 const createImageCarService = async (carId: string, data: ICarImageUpdate, imageId: string, userId: string): Promise<CarImages> => {
 
-    const prisma = new PrismaClient()
-
     const carsData: Cars | null = await prisma.cars.findFirst({
         where: {
             id: carId
@@ -177,8 +166,6 @@ const createImageCarService = async (carId: string, data: ICarImageUpdate, image
 }
 
 const updateImageCarService = async (carId: string, data: ICarImageCreate, imageId: string, userId: string): Promise<CarImages | null> => {
-
-    const prisma = new PrismaClient()
 
     const findImage: CarImages | null = await prisma.carImages.findFirst({
         where: {
@@ -210,8 +197,6 @@ const updateImageCarService = async (carId: string, data: ICarImageCreate, image
 
 
 const deleteCarsIdService = async (carId: string, userId: string): Promise<void> => {
-
-    const prisma = new PrismaClient()
 
     const carsData: Cars | null = await prisma.cars.findFirst({
         where: {
