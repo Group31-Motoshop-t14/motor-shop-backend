@@ -1,5 +1,5 @@
 import { CarImages, Cars, PrismaClient } from "@prisma/client";
-import { ICarImage, ICarImageResponse, ICars, ICarsCreate, ICarsCreateResponse, ICarsUpdate, ICarsUpdateResponse } from "../interfaces";
+import { ICarImage, ICarImageCreate, ICarImageResponse, ICarImageUpdate, ICars, ICarsCreate, ICarsCreateResponse, ICarsUpdate } from "../interfaces";
 import { carsSchema, carsSchemaResponseWithImage, imageSchema } from "../schemas";
 import { AppError } from "../errors";
 
@@ -114,35 +114,90 @@ const getCarsIdService = async (carId: string): Promise<ICars> => {
     return cars!
 }
 
-const updateCarsIdService = async (carId: string, data: any, userId: string): Promise<ICarsUpdate> => {
+const updateCarsIdService = async (carId: string, data: ICarsUpdate, userId: string): Promise<ICarsUpdate> => {
 
     const prisma = new PrismaClient()
 
-    const cars: Cars | null = await prisma.cars.findFirst({
+    const carsData: Cars | null = await prisma.cars.findFirst({
         where: {
             id: carId
         }
     })
 
-    if(cars!.userId != userId){
+    if(carsData!.userId != userId){
         throw new AppError("You can only update your ads", 403)
     }
 
-    const updateCars: Cars = await prisma.cars.update({
-        where: {
-            id: carId
-        },
-        include: {
-            carImages: true
-        },
+    const updateCars: ICarsUpdate | null = await prisma.cars.update({
+            where: {
+                id: carId
+            },
+            data: {
+                brand: data.brand!,
+                model: data.model!,
+                year: data.year!,
+                fuelType: data.fuelType!,
+                mileage: data.mileage!,
+                color: data.color!,
+                fipePrice: data.fipePrice!,
+                price: data.price!,
+                description: data.description!,
+                isPublished: data.isPublished!,
+                coverImage: data.coverImage!,
+            },
+        })
+    
+        return updateCars
+
+}
+
+const updateImageCarService = async (carId: string, data: ICarImageUpdate, imageId: string, userId: string): Promise<CarImages> => {
+
+    const prisma = new PrismaClient()
+
+    const imageCar: CarImages | undefined = await prisma.carImages.create({
         data: {
-            ...data
+            url: data.url!,
+            carId: carId
+        }
+    })
+    
+    return imageCar
+
+}
+
+const createImageCar = async (carId: string, data: ICarImageCreate, imageId: string, userId: string): Promise<CarImages | null> => {
+
+    const prisma = new PrismaClient()
+
+    const findImage: CarImages | null = await prisma.carImages.findFirst({
+        where: {
+            id: imageId
         }
     })
 
-    return updateCars
+    if(!findImage){
+        throw new AppError("image not exists", 404)
+    }
+
+    if(findImage.carId != carId){
+        throw new AppError("You can update your images", 403)
+    }
+
+    const updateImage: CarImages | null = await prisma.carImages.update({
+        where: {
+            id: imageId
+        },
+        data: {
+            url: data.url!
+        }
+    })
+
+
+    return updateImage
 
 }
+
 
 const deleteCarsIdService = async (carId: string, userId: string): Promise<void> => {
 
@@ -172,5 +227,7 @@ export {
     getCarsUserIdService,
     getCarsIdService,
     updateCarsIdService,
-    deleteCarsIdService
+    deleteCarsIdService,
+    updateImageCarService,
+    createImageCar
 }

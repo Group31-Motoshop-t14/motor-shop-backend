@@ -19,7 +19,9 @@ import {
     carsSchemaResponseWithImage,
     createCarSchema,
     imageSchema,
-    imageSchemaResponse
+    imageSchemaResponse,
+    imageUpdate,
+    imageCreateSchema
 } from "./cars.schemas";
 
 export {
@@ -40,5 +42,7 @@ export {
     carsSchemaResponseWithImage,
     createCarSchema,
     imageSchema,
-    imageSchemaResponse
+    imageSchemaResponse,
+    imageUpdate,
+    imageCreateSchema
 }

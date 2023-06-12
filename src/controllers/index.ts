@@ -15,7 +15,9 @@ import {
     getCarsIdUserController,
     getCarsIdController,
     updateCarsIdController,
-    deleteCarsIdController
+    deleteCarsIdController,
+    updateImagesCarController,
+    createImagesCarController
 } from "./cars.controllers";
 
 export {
@@ -32,5 +34,7 @@ export {
     getCarsIdUserController,
     getCarsIdController,
     updateCarsIdController,
-    deleteCarsIdController
+    deleteCarsIdController,
+    updateImagesCarController,
+    createImagesCarController
 }

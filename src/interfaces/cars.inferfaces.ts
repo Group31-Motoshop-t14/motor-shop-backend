@@ -6,7 +6,9 @@ import {
     carsSchemaResponseWithImage,
     createCarSchema,
     imageSchema,
-    imageSchemaResponse
+    imageSchemaResponse,
+    imageUpdate,
+    imageCreateSchema
 } from "../schemas";
 
 export type ICars = z.infer<typeof carsSchema>
@@ -16,3 +18,5 @@ export type ICarsCreate = z.infer<typeof createCarSchema>
 export type ICarsCreateResponse = z.infer<typeof carsSchemaResponseWithImage>
 export type ICarImage = z.infer<typeof imageSchema>
 export type ICarImageResponse = z.infer<typeof imageSchemaResponse>
+export type ICarImageUpdate = z.infer<typeof imageUpdate>
+export type ICarImageCreate = z.infer<typeof imageCreateSchema>
