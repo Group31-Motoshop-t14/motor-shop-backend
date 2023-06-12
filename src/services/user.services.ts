@@ -5,8 +5,7 @@ import { AppError } from "../errors";
 import { hashSync } from "bcryptjs";
 import { IAddressPartial, IListUser, IUpdateUser } from "../interfaces/user.interfaces";
 import jwt from "jsonwebtoken"
-
-const prisma = new PrismaClient()
+import { prisma } from "../server";
 
 const createUserService = async (data: ICreateUser): Promise<ICreateUserResponse> => {
     const userData: IUser = userSchema.parse(data)
