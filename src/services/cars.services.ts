@@ -151,9 +151,19 @@ const updateCarsIdService = async (carId: string, data: ICarsUpdate, userId: str
 
 }
 
-const updateImageCarService = async (carId: string, data: ICarImageUpdate, imageId: string, userId: string): Promise<CarImages> => {
+const createImageCarService = async (carId: string, data: ICarImageUpdate, imageId: string, userId: string): Promise<CarImages> => {
 
     const prisma = new PrismaClient()
+
+    const carsData: Cars | null = await prisma.cars.findFirst({
+        where: {
+            id: carId
+        }
+    })
+
+    if(carsData!.userId != userId){
+        throw new AppError("You can only create image for your cars", 403)
+    }
 
     const imageCar: CarImages | undefined = await prisma.carImages.create({
         data: {
@@ -166,7 +176,7 @@ const updateImageCarService = async (carId: string, data: ICarImageUpdate, image
 
 }
 
-const createImageCar = async (carId: string, data: ICarImageCreate, imageId: string, userId: string): Promise<CarImages | null> => {
+const updateImageCarService = async (carId: string, data: ICarImageCreate, imageId: string, userId: string): Promise<CarImages | null> => {
 
     const prisma = new PrismaClient()
 
@@ -229,5 +239,5 @@ export {
     updateCarsIdService,
     deleteCarsIdService,
     updateImageCarService,
-    createImageCar
+    createImageCarService
 }

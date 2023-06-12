@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { ICarImageUpdate, ICars, ICarsCreateResponse, ICarsResponse, ICarsUpdate } from "../interfaces";
-import { createCarsService, deleteCarsIdService, getCarsIdService, getCarsService, getCarsUserIdService, updateCarsIdService, updateImageCarService } from "../services";
+import { createCarsService, createImageCarService, deleteCarsIdService, getCarsIdService, getCarsService, getCarsUserIdService, updateCarsIdService, updateImageCarService } from "../services";
 import { CarImages, Cars } from "@prisma/client";
 
 const createCarsController = async (req: Request, res: Response) => {
@@ -45,7 +45,7 @@ const createImagesCarController = async (req: Request, res: Response) => {
     const carId = req.params.id
     const imageId = req.params.imageId
     const userId = res.locals.id
-    const carImages: CarImages | null = await updateImageCarService(carId, req.body, imageId, userId)
+    const carImages: CarImages | null = await createImageCarService(carId, req.body, imageId, userId)
     return res.status(201).json(carImages)
 }
 

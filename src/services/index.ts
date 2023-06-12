@@ -15,7 +15,7 @@ import { createCarsService,
     updateCarsIdService,
     deleteCarsIdService,
     updateImageCarService,
-    createImageCar 
+    createImageCarService
 } from "./cars.services";
 
 
@@ -35,5 +35,5 @@ export {
     updateCarsIdService,
     deleteCarsIdService,
     updateImageCarService,
-    createImageCar
+    createImageCarService
 }
