@@ -1,5 +1,6 @@
 import { 
     userSchema,
+    userSchemaResponse,
     addressSchema,
     createUserSchema,
     createUserSchemaResponse,
@@ -26,6 +27,7 @@ import {
 
 export {
     userSchema,
+    userSchemaResponse,
     addressSchema,
     createUserSchema,
     createUserSchemaResponse,

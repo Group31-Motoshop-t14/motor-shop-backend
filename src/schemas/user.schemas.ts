@@ -26,6 +26,7 @@ const userSchema = z.object({
 })
 
 const userListSchema = z.object({
+    id: z.string(),
     name: z.string().min(3).max(100),
     email: z.string().max(100).email(),
     cpf: z.string().length(11),
@@ -69,6 +70,7 @@ const addressPartialSchema = addressSchema.partial()
 
 export {
     userSchema,
+    userSchemaResponse,
     addressSchema,
     createUserSchema,
     createUserSchemaResponse,

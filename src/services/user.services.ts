@@ -134,16 +134,20 @@ const updateUserService = async (
 
 const listUserService = async (
   userId: string
-): Promise<IUpdateUserResponse> => {
+): Promise<ICreateUserResponse> => {
   const user: Users | null = await prisma.users.findFirstOrThrow({
     where: { id: userId },
   });
+  const address: Address | null = await prisma.address.findFirstOrThrow({
+    where: {user: {id: userId}}
+  })
 
-  return updateUserSchema.parse({
+  return createUserSchemaResponse.parse({
     ...user,
     birthDate: user.birthDate.toISOString(),
     createdAt: user.createdAt.toISOString(),
     updatedAt: user.updatedAt.toISOString(),
+    address: {...address}
   });
 };
 const listAllUsersService = async (): Promise<IListUser[]> => {
