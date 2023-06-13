@@ -17,7 +17,7 @@ const carsSchema = z.object({
 const carsSchemaResponse = carsSchema.extend({
   id: z.string(),
   createdAt: z.date(),
-  isPublished: z.boolean().default(false),
+  isPublished: z.boolean().default(true),
 });
 
 const imageSchema = z.object({

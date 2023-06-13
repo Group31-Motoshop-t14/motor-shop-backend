@@ -62,7 +62,7 @@ model Cars {
   price        Float
   description  String   @db.Text()
   createdAt   DateTime @default(now())
-  isPublished Boolean  @default(false)
+  isPublished Boolean  @default(true)
   coverImage  String   @db.Text()
   user         Users    @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId       String     
