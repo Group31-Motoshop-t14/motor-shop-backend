@@ -4,6 +4,7 @@ import {
   deleteUserController,
   listAllUsersController,
   listUserController,
+  listUserProfileController,
   recoverUserController,
   updateUserController,
 } from "../controllers";
@@ -31,6 +32,8 @@ userRoutes.post(
 userRoutes.get("", validateTokenMiddleware, listUserController);
 
 userRoutes.get("/all", validateTokenMiddleware, listAllUsersController);
+
+userRoutes.get("/profile/:id", listUserProfileController);
 
 userRoutes.delete("", validateTokenMiddleware, deleteUserController);
 

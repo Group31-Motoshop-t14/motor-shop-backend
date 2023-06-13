@@ -14,6 +14,7 @@ import {
   deleteUserController,
   listAllUsersController,
   listUserController,
+  listUserProfileController,
   recoverUserController,
   updateUserController,
 } from "./user.controllers";
@@ -34,4 +35,5 @@ export {
   deleteCarsIdController,
   updateImagesCarController,
   createImagesCarController,
+  listUserProfileController,
 };
