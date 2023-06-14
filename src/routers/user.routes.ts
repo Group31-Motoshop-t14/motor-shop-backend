@@ -13,6 +13,7 @@ import {
   validateCpfMiddleware,
   validateEmailExistsMiddleware,
   validateTokenMiddleware,
+  validateUserIdMiddleware,
 } from "../middlewares";
 import {
   createLoginSchema,
@@ -33,7 +34,7 @@ userRoutes.get("", validateTokenMiddleware, listUserController);
 
 userRoutes.get("/all", validateTokenMiddleware, listAllUsersController);
 
-userRoutes.get("/profile/:id", listUserProfileController);
+userRoutes.get("/profile/:id", validateUserIdMiddleware, listUserProfileController);
 
 userRoutes.delete("", validateTokenMiddleware, deleteUserController);
 
