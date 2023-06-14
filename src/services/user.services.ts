@@ -72,45 +72,14 @@ const updateUserService = async (
   if (Object.keys(userData).length > 0) {
     await prisma.users.update({
       where: { id: userId },
-      data: {
-        name: userData.name ? userData.name : oldDataUser!.name,
-        email: userData.email ? userData.email : oldDataUser!.email,
-        password: userData.password
-          ? hashSync(userData.password, 9)
-          : oldDataUser!.password,
-        phone: userData.phone ? userData.phone : oldDataUser!.phone,
-        birthDate: userData.birthDate
-          ? new Date(userData.birthDate)
-          : oldDataUser!.birthDate,
-        description: userData.description
-          ? userData.description
-          : oldDataUser!.description,
-        isAdvertiser: userData.isAdvertiser
-          ? userData.isAdvertiser
-          : oldDataUser!.isAdvertiser,
-      },
+      data: {...oldDataUser, ...userData as ICreateUser},
     });
   }
 
   if (Object.keys(addressData).length > 0) {
     await prisma.address.update({
       where: { userId: userId },
-      data: {
-        zipCode: addressData.zipCode
-          ? addressData.zipCode
-          : oldDataAddress!.zipCode,
-        state: addressData.state ? addressData.state : oldDataAddress!.state,
-        city: addressData.city ? addressData.city : oldDataAddress!.city,
-        street: addressData.street
-          ? addressData.street
-          : oldDataAddress!.street,
-        number: addressData.number
-          ? addressData.number
-          : oldDataAddress!.number,
-        complement: addressData.complement
-          ? addressData.complement
-          : oldDataAddress!.complement,
-      },
+      data: {...oldDataAddress, ...addressData as IAddress},
     });
   }
 
