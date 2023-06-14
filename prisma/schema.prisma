@@ -11,9 +11,10 @@ datasource db {
 }
 
 enum Fuel {
+  ETANOL
   FLEX
   HIBRIDO
-  ELETRICO 
+  ELETRICO
 }
 
 model Users {

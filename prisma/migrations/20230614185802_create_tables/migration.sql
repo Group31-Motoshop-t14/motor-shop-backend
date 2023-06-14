@@ -1,5 +1,5 @@
 -- CreateEnum
-CREATE TYPE "Fuel" AS ENUM ('FLEX', 'HIBRIDO', 'ELETRICO');
+CREATE TYPE "Fuel" AS ENUM ('ETANOL', 'FLEX', 'HIBRIDO', 'ELETRICO');
 
 -- CreateTable
 CREATE TABLE "users" (
@@ -46,7 +46,7 @@ CREATE TABLE "cars" (
     "price" DOUBLE PRECISION NOT NULL,
     "description" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "isPublished" BOOLEAN NOT NULL DEFAULT false,
+    "isPublished" BOOLEAN NOT NULL DEFAULT true,
     "coverImage" TEXT NOT NULL,
     "userId" TEXT NOT NULL,
 
