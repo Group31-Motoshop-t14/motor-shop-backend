@@ -4,6 +4,7 @@ import {
   deleteUserController,
   listAllUsersController,
   listUserController,
+  listUserProfileController,
   recoverUserController,
   updateUserController,
 } from "../controllers";
@@ -12,6 +13,7 @@ import {
   validateCpfMiddleware,
   validateEmailExistsMiddleware,
   validateTokenMiddleware,
+  validateUserIdMiddleware,
 } from "../middlewares";
 import {
   createLoginSchema,
@@ -31,6 +33,8 @@ userRoutes.post(
 userRoutes.get("", validateTokenMiddleware, listUserController);
 
 userRoutes.get("/all", validateTokenMiddleware, listAllUsersController);
+
+userRoutes.get("/profile/:id", validateUserIdMiddleware, listUserProfileController);
 
 userRoutes.delete("", validateTokenMiddleware, deleteUserController);
 

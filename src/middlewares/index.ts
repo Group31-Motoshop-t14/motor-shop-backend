@@ -5,6 +5,7 @@ import validateEmailExistsMiddleware from "./validateEmailExists.middleware";
 import validateTokenMiddleware from "./validateToken.middleware";
 import verifyAdvertiserMiddleware from "./verifyIsAdvertiser.middleware";
 import verifyUserIsDeletedMiddleware from "./verifyUserIsDeleted.middleware";
+import validateUserIdMiddleware from "./validateUserId.middleware";
 
 export {
   validateBodyMiddleware,
@@ -14,4 +15,5 @@ export {
   verifyAdvertiserMiddleware,
   ensureIdCarExistsMiddleware,
   verifyUserIsDeletedMiddleware,
+  validateUserIdMiddleware
 };

@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { ICreateUserResponse, IUpdateUserResponse } from "../interfaces";
+import { ICreateUserResponse } from "../interfaces";
 import { IListUser } from "../interfaces/user.interfaces";
 import {
   createLoginService,
@@ -18,6 +18,13 @@ const createUserController = async (req: Request, res: Response) => {
 };
 const listUserController = async (req: Request, res: Response) => {
   const user: ICreateUserResponse = await listUserService(res.locals.id);
+
+  return res.status(200).json(user);
+};
+
+const listUserProfileController = async (req: Request, res: Response) => {
+  const userId = req.params.id;
+  const user: ICreateUserResponse = await listUserService(userId);
 
   return res.status(200).json(user);
 };
@@ -56,4 +63,5 @@ export {
   deleteUserController,
   recoverUserController,
   updateUserController,
+  listUserProfileController,
 };
