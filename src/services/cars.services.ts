@@ -7,20 +7,15 @@ import {
   ICarImageUpdate,
   ICars,
   ICarsCreate,
-  ICarsCreateResponse,
   ICarsUpdate,
 } from "../interfaces";
-import {
-  carsSchema,
-  carsSchemaResponseWithImage,
-  imageSchema,
-} from "../schemas";
+import { carsSchema, imageSchema } from "../schemas";
 import { prisma } from "../server";
 
 const createCarsService = async (
   data: ICarsCreate,
   userId: string
-): Promise<ICarsCreateResponse> => {
+): Promise<any> => {
   if (data.url.length === 0) {
     throw new AppError("At least one image for gallery is required", 400);
   }
@@ -53,12 +48,30 @@ const createCarsService = async (
     })
   );
 
-  const newObj: ICarsCreateResponse = {
-    ...newCar,
-    images: gallery,
-  };
+  // const newObj: ICarsCreateResponse = {
+  //   ...newCar,
+  //   images: gallery,
+  // };
 
-  return carsSchemaResponseWithImage.parse(newObj);
+  // return carsSchemaResponseWithImage.parse(newObj);
+
+  const cars: Cars | null = await prisma.cars.findUnique({
+    where: {
+      id: newCar.id,
+    },
+    include: {
+      user: {
+        select: {
+          name: true,
+          email: true,
+          description: true,
+        },
+      },
+      carImages: true,
+    },
+  });
+
+  return cars!;
 };
 
 const getCarsService = async (): Promise<ICars[]> => {
