@@ -31,7 +31,7 @@ const imageSchemaResponse = z.object({
 });
 
 const carsSchemaResponseWithImage = carsSchemaResponse.extend({
-  images: z.array(imageSchemaResponse),
+  carImages: z.array(imageSchemaResponse),
 });
 
 const createCarSchema = carsSchema.extend({
