@@ -20,6 +20,14 @@ import {
   createUserSchema,
   updateUserSchema,
 } from "../schemas";
+import {
+  resetPasswordController,
+  sendEmailResetPasswordController,
+} from "../controllers/user.controllers";
+import {
+  resetPasswordSchema,
+  sendEmailResetPasswordSchema,
+} from "../schemas/user.schemas";
 
 const userRoutes: Router = Router();
 
@@ -34,7 +42,11 @@ userRoutes.get("", validateTokenMiddleware, listUserController);
 
 userRoutes.get("/all", validateTokenMiddleware, listAllUsersController);
 
-userRoutes.get("/profile/:id", validateUserIdMiddleware, listUserProfileController);
+userRoutes.get(
+  "/profile/:id",
+  validateUserIdMiddleware,
+  listUserProfileController
+);
 
 userRoutes.delete("", validateTokenMiddleware, deleteUserController);
 
@@ -49,6 +61,18 @@ userRoutes.patch(
   validateTokenMiddleware,
   validateBodyMiddleware(updateUserSchema),
   updateUserController
+);
+
+userRoutes.post(
+  "/resetPassword",
+  validateBodyMiddleware(sendEmailResetPasswordSchema),
+  sendEmailResetPasswordController
+);
+
+userRoutes.patch(
+  "/resetPassword/:token",
+  validateBodyMiddleware(resetPasswordSchema),
+  resetPasswordController
 );
 
 export { userRoutes };

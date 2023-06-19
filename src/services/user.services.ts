@@ -1,3 +1,4 @@
+import { randomUUID } from "node:crypto";
 import { Address, Users } from "@prisma/client";
 import { hashSync } from "bcryptjs";
 import jwt from "jsonwebtoken";
@@ -24,6 +25,7 @@ import {
   userSchema,
 } from "../schemas";
 import { prisma } from "../server";
+import { emailService } from "../utils/sendEmail.utils";
 
 const createUserService = async (
   data: ICreateUser
@@ -72,14 +74,14 @@ const updateUserService = async (
   if (Object.keys(userData).length > 0) {
     await prisma.users.update({
       where: { id: userId },
-      data: {...oldDataUser, ...userData as ICreateUser},
+      data: { ...oldDataUser, ...(userData as ICreateUser) },
     });
   }
 
   if (Object.keys(addressData).length > 0) {
     await prisma.address.update({
       where: { userId: userId },
-      data: {...oldDataAddress, ...addressData as IAddress},
+      data: { ...oldDataAddress, ...(addressData as IAddress) },
     });
   }
 
@@ -108,15 +110,15 @@ const listUserService = async (
     where: { id: userId },
   });
   const address: Address | null = await prisma.address.findFirstOrThrow({
-    where: {user: {id: userId}}
-  })
+    where: { user: { id: userId } },
+  });
 
   return createUserSchemaResponse.parse({
     ...user,
     birthDate: user.birthDate.toISOString(),
     createdAt: user.createdAt.toISOString(),
     updatedAt: user.updatedAt.toISOString(),
-    address: {...address}
+    address: { ...address },
   });
 };
 const listAllUsersService = async (): Promise<IListUser[]> => {
@@ -153,6 +155,51 @@ const recoverUserService = async (
   });
 };
 
+const sendEmailResetPasswordService = async (email: string) => {
+  const user = await prisma.users.findFirst({
+    where: { email },
+  });
+
+  if (!user) {
+    throw new AppError("User not found", 404);
+  }
+
+  const resetToken = randomUUID();
+
+  await prisma.users.update({
+    where: { email },
+    data: { reset_token: resetToken },
+  });
+
+  const resetPasswordTemplate = emailService.resetPasswordTemplate(
+    user.name,
+    email,
+    resetToken
+  );
+
+  await emailService.sendEmail(resetPasswordTemplate);
+};
+
+const resetPasswordService = async (password: string, resetToken: string) => {
+  const user = await prisma.users.findFirst({
+    where: { reset_token: resetToken },
+  });
+
+  if (!user) {
+    throw new AppError("User not found", 404);
+  }
+
+  await prisma.users.update({
+    where: {
+      id: user.id,
+    },
+    data: {
+      password: hashSync(password, 10),
+      reset_token: null,
+    },
+  });
+};
+
 export {
   createUserService,
   updateUserService,
@@ -160,4 +207,6 @@ export {
   listAllUsersService,
   deleteUserService,
   recoverUserService,
+  sendEmailResetPasswordService,
+  resetPasswordService,
 };
