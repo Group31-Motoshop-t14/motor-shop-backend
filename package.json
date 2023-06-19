@@ -27,15 +27,18 @@
     "express": "^4.18.2",
     "express-async-errors": "^3.1.1",
     "jsonwebtoken": "^9.0.0",
+    "mailgen": "^2.0.27",
+    "nodemailer": "^6.9.3",
     "zod": "^3.21.4"
   },
-  "devDependencies": {    
+  "devDependencies": {
     "@prisma/client": "^4.15.0",
     "@types/bcryptjs": "^2.4.2",
     "@types/cors": "^2.8.13",
     "@types/express": "^4.17.17",
     "@types/jsonwebtoken": "^9.0.2",
     "@types/node": "^20.2.5",
+    "@types/nodemailer": "^6.4.8",
     "@typescript-eslint/eslint-plugin": "^5.59.8",
     "prisma": "^4.15.0",
     "ts-node-dev": "^2.0.0",

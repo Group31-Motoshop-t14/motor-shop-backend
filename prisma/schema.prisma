@@ -33,6 +33,7 @@ model Users {
   address       Address?
   car           Cars[]
   cars          Comment[]
+  reset_token String?
 
   @@map("users")
 }

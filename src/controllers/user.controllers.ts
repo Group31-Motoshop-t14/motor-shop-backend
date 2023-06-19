@@ -10,6 +10,10 @@ import {
   recoverUserService,
   updateUserService,
 } from "../services";
+import {
+  resetPasswordService,
+  sendEmailResetPasswordService,
+} from "../services/user.services";
 
 const createUserController = async (req: Request, res: Response) => {
   const newUser: ICreateUserResponse = await createUserService(req.body);
@@ -56,6 +60,27 @@ const recoverUserController = async (
   return res.status(204).json();
 };
 
+const sendEmailResetPasswordController = async (
+  req: Request,
+  res: Response
+) => {
+  const { email } = req.body;
+
+  await sendEmailResetPasswordService(email);
+
+  return res.status(201).json({ message: "Token send" });
+};
+
+const resetPasswordController = async (req: Request, res: Response) => {
+  const { password } = req.body;
+  const { token } = req.params;
+
+  await resetPasswordService(password, token);
+  return res
+    .status(201)
+    .json({ message: "Password has been changed with success" });
+};
+
 export {
   createUserController,
   listAllUsersController,
@@ -64,4 +89,6 @@ export {
   recoverUserController,
   updateUserController,
   listUserProfileController,
+  sendEmailResetPasswordController,
+  resetPasswordController,
 };
