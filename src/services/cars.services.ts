@@ -262,7 +262,7 @@ const filterCarsService = async (
     maxprice,
   } = data;
 
-  console.log(data);
+  console.log(data.maxprice);
   const brandFilter: Prisma.StringFilter | undefined = brand
     ? { equals: brand }
     : undefined;
@@ -301,9 +301,9 @@ const filterCarsService = async (
     Number(minprice) !== undefined && Number(minprice) >= 0
       ? { gte: Number(minprice) }
       : undefined;
-
+      
   const maxPriceFilter: Prisma.FloatFilter | undefined =
-    Number(maxprice) !== undefined && Number(maxprice) <= 0
+    Number(maxprice) !== undefined && Number(maxprice) >= 0
       ? { lte: Number(maxprice) }
       : undefined;
 
@@ -322,6 +322,16 @@ const filterCarsService = async (
         ...minPriceFilter,
         ...maxPriceFilter,
       },
+    },
+    include: {
+      user: {
+        select: {
+          name: true,
+          email: true,
+          description: true,
+        },
+      },
+      carImages: true,
     },
   });
 
