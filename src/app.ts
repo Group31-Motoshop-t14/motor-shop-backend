@@ -14,7 +14,7 @@ app.use("/user", userRoutes);
 app.use("/login", loginRoutes);
 app.use("/cars", carsRoutes);
 app.use("/comments", commentsRoutes);
-app.use("filters", filterRoutes)
+app.use("/filters", filterRoutes)
 
 app.use(errorHandler);
 
