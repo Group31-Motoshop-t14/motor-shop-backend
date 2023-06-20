@@ -240,8 +240,6 @@ const deleteCarsIdService = async (
   });
 };
 
-
-
 const fuelTypeMapping: Record<string, Fuel> = {
   ETANOL: "ETANOL",
   FLEX: "FLEX",
@@ -249,20 +247,22 @@ const fuelTypeMapping: Record<string, Fuel> = {
   ELETRICO: "ELETRICO",
 };
 
-const filterCarsService = async (data: TFilterRequest): Promise<Cars[]|[]> => {
- 
+const filterCarsService = async (
+  data: TFilterRequest
+): Promise<Cars[] | []> => {
   const {
     brand,
     model,
     year,
-    fuelType,
+    fueltype,
     color,
-    minKms,
-    maxKms,
-    minPrice,
-    maxPrice,
+    minkms,
+    maxkms,
+    minprice,
+    maxprice,
   } = data;
-  console.log(minPrice)
+
+  console.log(data);
   const brandFilter: Prisma.StringFilter | undefined = brand
     ? { equals: brand }
     : undefined;
@@ -275,8 +275,8 @@ const filterCarsService = async (data: TFilterRequest): Promise<Cars[]|[]> => {
     ? { equals: year }
     : undefined;
 
-  const mappedFuelType = fuelType
-    ? fuelTypeMapping[fuelType.toUpperCase()]
+  const mappedFuelType = fueltype
+    ? fuelTypeMapping[fueltype.toUpperCase()]
     : undefined;
 
   const fuelFilter: Prisma.EnumFuelFilter | undefined = mappedFuelType
@@ -288,24 +288,32 @@ const filterCarsService = async (data: TFilterRequest): Promise<Cars[]|[]> => {
     : undefined;
 
   const minMileageFilter: Prisma.IntFilter | undefined =
-    minKms !== undefined && minKms >= 0 ? { gte: minKms } : undefined;
+    Number(minkms) !== undefined && Number(minkms) >= 0
+      ? { gte: Number(minkms) }
+      : undefined;
 
   const maxMileageFilter: Prisma.IntFilter | undefined =
-    maxKms !== undefined && maxKms <= Infinity ? { lte: maxKms } : undefined;
+    Number(maxkms) !== undefined && Number(maxkms) <= Infinity
+      ? { lte: Number(maxkms) }
+      : undefined;
 
   const minPriceFilter: Prisma.FloatFilter | undefined =
-    minPrice !== undefined && minPrice >= 0 ? { gte: minPrice } : undefined;
+    Number(minprice) !== undefined && Number(minprice) >= 0
+      ? { gte: Number(minprice) }
+      : undefined;
 
   const maxPriceFilter: Prisma.FloatFilter | undefined =
-    maxPrice !== undefined && maxPrice <= 0 ? { lte: maxPrice } : undefined;
+    Number(maxprice) !== undefined && Number(maxprice) <= 0
+      ? { lte: Number(maxprice) }
+      : undefined;
 
   const cars = await prisma.cars.findMany({
     where: {
-      brand: { ...brandFilter },
-      model: { ...modelFilter },
+      brand: { ...brandFilter, mode: "insensitive" },
+      model: { ...modelFilter, mode: "insensitive" },
       year: { ...yearFilter },
       fuelType: { ...fuelFilter },
-      color: { ...colorFilter },
+      color: { ...colorFilter, mode: "insensitive" },
       mileage: {
         ...minMileageFilter,
         ...maxMileageFilter,
@@ -329,5 +337,5 @@ export {
   deleteCarsIdService,
   updateImageCarService,
   createImageCarService,
-  filterCarsService
+  filterCarsService,
 };

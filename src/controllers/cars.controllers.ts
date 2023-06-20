@@ -78,8 +78,7 @@ const deleteCarsIdController = async (req: Request, res: Response) => {
 };
 
 const filterCarsController = async (req: Request, res: Response) => {
-
-  const body: TFilterRequest = req.body;
+  const body: TFilterRequest = req.query;
   const cars: Cars[] | [] = await filterCarsService(body)
   return res.status(200).json(cars);
 }
