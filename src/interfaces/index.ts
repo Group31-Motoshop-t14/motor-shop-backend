@@ -1,41 +1,42 @@
 import {
-    IUser,
-    IAddress,
-    ICreateUser,
-    ICreateUserResponse,
-    IUpdateUserResponse
+  IUser,
+  IAddress,
+  ICreateUser,
+  ICreateUserResponse,
+  IUpdateUserResponse,
 } from "./user.interfaces";
 
 import { ILogin } from "./login.interfaces";
 
 import {
-    ICars,
-    ICarsResponse,
-    ICarsUpdate,
-    ICarsCreate,
-    ICarsCreateResponse,
-    ICarImage,
-    ICarImageResponse,
-    ICarImageUpdate,
-    ICarImageCreate
-    
+  ICars,
+  ICarsResponse,
+  ICarsUpdate,
+  ICarsCreate,
+  ICarsCreateResponse,
+  ICarImage,
+  ICarImageResponse,
+  ICarImageUpdate,
+  ICarImageCreate,
 } from "./cars.inferfaces";
 
-export {
-    IUser,
-    IAddress,
-    ICreateUser,
-    ICreateUserResponse,
-    IUpdateUserResponse,
-    ILogin,
+import { IEmailRequest } from "./email.interfaces";
 
-    ICars,
-    ICarsResponse,
-    ICarsUpdate,
-    ICarsCreate,
-    ICarsCreateResponse,
-    ICarImage,
-    ICarImageResponse,
-    ICarImageUpdate,
-    ICarImageCreate
-}
+export {
+  IUser,
+  IAddress,
+  ICreateUser,
+  ICreateUserResponse,
+  IUpdateUserResponse,
+  ILogin,
+  ICars,
+  ICarsResponse,
+  ICarsUpdate,
+  ICarsCreate,
+  ICarsCreateResponse,
+  ICarImage,
+  ICarImageResponse,
+  ICarImageUpdate,
+  ICarImageCreate,
+  IEmailRequest,
+};
