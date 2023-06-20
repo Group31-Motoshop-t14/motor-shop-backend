@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "tsnd --cls --rs src/server.ts",
+    "dev": "ts-node-dev --exit-child --transpile-only --ignore-watch node_modules src/server.ts",
     "build": "tsc",
     "start": "node dist/server.js"
   },
@@ -29,7 +29,7 @@
     "jsonwebtoken": "^9.0.0",
     "zod": "^3.21.4"
   },
-  "devDependencies": {    
+  "devDependencies": {
     "@prisma/client": "^4.15.0",
     "@types/bcryptjs": "^2.4.2",
     "@types/cors": "^2.8.13",

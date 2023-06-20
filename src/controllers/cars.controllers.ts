@@ -1,4 +1,4 @@
-import { CarImages } from "@prisma/client";
+import { CarImages, Cars } from "@prisma/client";
 import { Request, Response } from "express";
 import { ICars, ICarsCreateResponse, ICarsUpdate } from "../interfaces";
 import {
@@ -11,6 +11,8 @@ import {
   updateCarsIdService,
   updateImageCarService,
 } from "../services";
+import { filterCarsService } from "../services/cars.services";
+import { TFilterRequest } from "../interfaces/cars.inferfaces";
 
 const createCarsController = async (req: Request, res: Response) => {
   const userId = res.locals.id;
@@ -75,6 +77,13 @@ const deleteCarsIdController = async (req: Request, res: Response) => {
   return res.status(204).json();
 };
 
+const filterCarsController = async (req: Request, res: Response) => {
+
+  const body: TFilterRequest = req.body;
+  const cars: Cars[] | [] = await filterCarsService(body)
+  return res.status(200).json(cars);
+}
+
 export {
   createCarsController,
   getCarsController,
@@ -84,4 +93,5 @@ export {
   deleteCarsIdController,
   updateImagesCarController,
   createImagesCarController,
+  filterCarsController
 };

@@ -2,6 +2,7 @@ import {
   createCarsController,
   createImagesCarController,
   deleteCarsIdController,
+  filterCarsController,
   getCarsController,
   getCarsIdController,
   getCarsIdUserController,
@@ -36,4 +37,5 @@ export {
   updateImagesCarController,
   createImagesCarController,
   listUserProfileController,
+  filterCarsController
 };
