@@ -18,6 +18,10 @@ import {
   recoverUserController,
   updateUserController,
 } from "./user.controllers";
+import {
+  createCommentController,
+  getCommentsController,
+} from "./comments.controllers";
 
 export {
   createUserController,
@@ -36,4 +40,6 @@ export {
   updateImagesCarController,
   createImagesCarController,
   listUserProfileController,
+  createCommentController,
+  getCommentsController,
 };

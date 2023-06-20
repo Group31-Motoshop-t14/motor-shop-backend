@@ -22,6 +22,8 @@ import {
 
 import { IEmailRequest } from "./email.interfaces";
 
+import { IComments, ICommentsResponse } from "./comments.interface";
+
 export {
   IUser,
   IAddress,
@@ -39,4 +41,6 @@ export {
   ICarImageUpdate,
   ICarImageCreate,
   IEmailRequest,
+  IComments,
+  ICommentsResponse,
 };
