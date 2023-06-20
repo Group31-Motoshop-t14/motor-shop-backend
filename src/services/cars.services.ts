@@ -1,4 +1,4 @@
-import { CarImages, Cars } from "@prisma/client";
+import { CarImages, Cars, Fuel, Prisma } from "@prisma/client";
 import { AppError } from "../errors";
 import {
   ICarImage,
@@ -12,6 +12,7 @@ import {
 } from "../interfaces";
 import { carsSchema, imageSchema } from "../schemas";
 import { prisma } from "../server";
+import { TFilterRequest } from "../interfaces/cars.inferfaces";
 
 const createCarsService = async (
   data: ICarsCreate,
@@ -43,7 +44,7 @@ const createCarsService = async (
           description: true,
         },
       },
-    }
+    },
   });
 
   const gallery = await Promise.all(
@@ -64,7 +65,6 @@ const createCarsService = async (
   };
 
   return newObj;
-
 };
 
 const getCarsService = async (): Promise<ICars[]> => {
@@ -240,6 +240,94 @@ const deleteCarsIdService = async (
   });
 };
 
+const fuelTypeMapping: Record<string, Fuel> = {
+  ETANOL: "ETANOL",
+  FLEX: "FLEX",
+  HIBRIDO: "HIBRIDO",
+  ELETRICO: "ELETRICO",
+};
+
+const filterCarsService = async (
+  data: TFilterRequest
+): Promise<Cars[] | []> => {
+  const {
+    brand,
+    model,
+    year,
+    fueltype,
+    color,
+    minkm,
+    maxkm,
+    minprice,
+    maxprice,
+  } = data;
+
+  console.log(data);
+  const brandFilter: Prisma.StringFilter | undefined = brand
+    ? { equals: brand }
+    : undefined;
+
+  const modelFilter: Prisma.StringFilter | undefined = model
+    ? { equals: model }
+    : undefined;
+
+  const yearFilter: Prisma.StringFilter | undefined = year
+    ? { equals: year }
+    : undefined;
+
+  const mappedFuelType = fueltype
+    ? fuelTypeMapping[fueltype.toUpperCase()]
+    : undefined;
+
+  const fuelFilter: Prisma.EnumFuelFilter | undefined = mappedFuelType
+    ? { equals: mappedFuelType }
+    : undefined;
+
+  const colorFilter: Prisma.StringFilter | undefined = color
+    ? { equals: color }
+    : undefined;
+
+  const minMileageFilter: Prisma.IntFilter | undefined =
+    Number(minkm) !== undefined && Number(minkm) >= 0
+      ? { gte: Number(minkm) }
+      : undefined;
+
+  const maxMileageFilter: Prisma.IntFilter | undefined =
+    Number(maxkm) !== undefined && Number(maxkm) <= Infinity
+      ? { lte: Number(maxkm) }
+      : undefined;
+
+  const minPriceFilter: Prisma.FloatFilter | undefined =
+    Number(minprice) !== undefined && Number(minprice) >= 0
+      ? { gte: Number(minprice) }
+      : undefined;
+
+  const maxPriceFilter: Prisma.FloatFilter | undefined =
+    Number(maxprice) !== undefined && Number(maxprice) <= 0
+      ? { lte: Number(maxprice) }
+      : undefined;
+
+  const cars = await prisma.cars.findMany({
+    where: {
+      brand: { ...brandFilter, mode: "insensitive" },
+      model: { ...modelFilter, mode: "insensitive" },
+      year: { ...yearFilter },
+      fuelType: { ...fuelFilter },
+      color: { ...colorFilter, mode: "insensitive" },
+      mileage: {
+        ...minMileageFilter,
+        ...maxMileageFilter,
+      },
+      price: {
+        ...minPriceFilter,
+        ...maxPriceFilter,
+      },
+    },
+  });
+
+  return cars;
+};
+
 export {
   createCarsService,
   getCarsService,
@@ -249,4 +337,5 @@ export {
   deleteCarsIdService,
   updateImageCarService,
   createImageCarService,
+  filterCarsService,
 };
