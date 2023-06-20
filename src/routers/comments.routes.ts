@@ -12,6 +12,7 @@ const commentsRoutes: Router = Router();
 commentsRoutes.post(
   "/:id",
   validateTokenMiddleware,
+  ensureIdCarExistsMiddleware,
   validateBodyMiddleware(commentSchema),
   createCommentController
 );
