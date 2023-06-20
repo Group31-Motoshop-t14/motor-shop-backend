@@ -256,8 +256,8 @@ const filterCarsService = async (
     year,
     fueltype,
     color,
-    minkms,
-    maxkms,
+    minkm,
+    maxkm,
     minprice,
     maxprice,
   } = data;
@@ -288,13 +288,13 @@ const filterCarsService = async (
     : undefined;
 
   const minMileageFilter: Prisma.IntFilter | undefined =
-    Number(minkms) !== undefined && Number(minkms) >= 0
-      ? { gte: Number(minkms) }
+    Number(minkm) !== undefined && Number(minkm) >= 0
+      ? { gte: Number(minkm) }
       : undefined;
 
   const maxMileageFilter: Prisma.IntFilter | undefined =
-    Number(maxkms) !== undefined && Number(maxkms) <= Infinity
-      ? { lte: Number(maxkms) }
+    Number(maxkm) !== undefined && Number(maxkm) <= Infinity
+      ? { lte: Number(maxkm) }
       : undefined;
 
   const minPriceFilter: Prisma.FloatFilter | undefined =

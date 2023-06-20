@@ -27,8 +27,8 @@ export type TFilterRequest = {
   year?: string;
   fueltype?: string;
   color?: string;
-  minkms?: number;
-  maxkms?: number;
+  minkm?: number;
+  maxkm?: number;
   minprice?: number;
   maxprice?: number;
 };
