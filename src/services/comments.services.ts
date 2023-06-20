@@ -14,9 +14,16 @@ const createCommentService = async (
       carId,
       userId,
     },
+    include: {
+      user: {
+        select: {
+          name: true,
+        },
+      },
+    },
   });
 
-  return commentSchemaResponse.parse(newComment);
+  return newComment;
 };
 
 const getCommentsService = async (
