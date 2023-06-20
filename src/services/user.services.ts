@@ -129,9 +129,8 @@ const listAllUsersService = async (): Promise<IListUser[]> => {
 };
 
 const deleteUserService = async (userId: string): Promise<void> => {
-  await prisma.users.update({
-    where: { id: userId },
-    data: { isDeleted: true },
+  await prisma.users.delete({
+    where: { id: userId }    
   });
 };
 const recoverUserService = async (
