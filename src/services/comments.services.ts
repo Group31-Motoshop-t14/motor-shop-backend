@@ -24,6 +24,13 @@ const getCommentsService = async (
 ): Promise<ICommentsResponse[]> => {
   const comments = await prisma.comment.findMany({
     where: { carId },
+    include: {
+      user: {
+        select: {
+          name: true,
+        },
+      },
+    },
   });
 
   return comments;
