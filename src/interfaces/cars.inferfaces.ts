@@ -10,6 +10,7 @@ import {
   imageUpdate,
   imageCreateSchema,
 } from "../schemas";
+import { Cars } from ".prisma/client";
 
 export type ICars = z.infer<typeof carsSchema>;
 export type ICarsResponse = z.infer<typeof carsSchemaResponse>;
@@ -31,4 +32,14 @@ export type TFilterRequest = {
   maxkm?: number;
   minprice?: number;
   maxprice?: number;
+  pageNumber?: number;
+  pageSize?: number;
+};
+
+export type TFilterResponse = {
+  nextPage: string | null;
+  prevPage: string | null;
+  pages: number;
+  items: number;
+  data: Cars[]| [];
 };

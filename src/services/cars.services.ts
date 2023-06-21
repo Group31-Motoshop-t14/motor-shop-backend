@@ -10,9 +10,11 @@ import {
   ICarsCreateResponse,
   ICarsUpdate,
 } from "../interfaces";
-import { TFilterRequest } from "../interfaces/cars.inferfaces";
+import { TFilterRequest, TFilterResponse } from "../interfaces/cars.inferfaces";
 import { carsSchema, imageSchema } from "../schemas";
 import { prisma } from "../server";
+import { equal } from "assert";
+import filterParams from "../utils/filter.utils";
 
 const createCarsService = async (
   data: ICarsCreate,
@@ -266,116 +268,36 @@ const deleteCarsIdService = async (
   });
 };
 
-const fuelTypeMapping: Record<string, Fuel> = {
-  ETANOL: "ETANOL",
-  FLEX: "FLEX",
-  HIBRIDO: "HIBRIDO",
-  ELETRICO: "ELETRICO",
-};
-
 const filterCarsService = async (
   data: TFilterRequest
-): Promise<Cars[] | []> => {
-  const {
-    brand,
-    model,
-    year,
-    fueltype,
-    color,
-    minkm,
-    maxkm,
-    minprice,
-    maxprice,
-  } = data;
-
-  console.log(data.maxprice);
-  let url = `${process.env.BASE_URL_BACK}/filters`;
-  console.log(url);
-  let brandFilter: Prisma.StringFilter | undefined = undefined;
-  if (brand) {
-    brandFilter = { equals: brand };
-    url += url[url.length - 1] == "s" ? "?" : "&";
-    url += `brand=${brand}`;
+): Promise<TFilterResponse> => {
+  const { url, searchParams } = filterParams(data);
+  const { pageNumber, pageSize } = data;
+  let page: number | undefined = 1;
+  if (pageNumber) {
+    page = Number(pageNumber) > 0 ? Number(pageNumber) : 1;
+  }
+  let perPage: number | undefined = 9;
+  if (pageSize) {
+    perPage =
+      Number(pageSize) > 0 && Number(pageSize) <= 9 ? Number(pageSize) : 9;
   }
 
-  // const brandFilter: Prisma.StringFilter | undefined = brand
-  //   ? { equals: brand }
-  //   : undefined;
-
-  const modelFilter: Prisma.StringFilter | undefined = model
-    ? { equals: model }
-    : undefined;
-
-  const yearFilter: Prisma.StringFilter | undefined = year
-    ? { equals: year }
-    : undefined;
-
-  const mappedFuelType = fueltype
-    ? fuelTypeMapping[fueltype.toUpperCase()]
-    : undefined;
-
-  const fuelFilter: Prisma.EnumFuelFilter | undefined = mappedFuelType
-    ? { equals: mappedFuelType }
-    : undefined;
-
-  const colorFilter: Prisma.StringFilter | undefined = color
-    ? { equals: color }
-    : undefined;
-
-  const minMileageFilter: Prisma.IntFilter | undefined =
-    Number(minkm) !== undefined && Number(minkm) >= 0
-      ? { gte: Number(minkm) }
-      : undefined;
-
-  const maxMileageFilter: Prisma.IntFilter | undefined =
-    Number(maxkm) !== undefined && Number(maxkm) <= Infinity
-      ? { lte: Number(maxkm) }
-      : undefined;
-
-  const minPriceFilter: Prisma.FloatFilter | undefined =
-    Number(minprice) !== undefined && Number(minprice) >= 0
-      ? { gte: Number(minprice) }
-      : undefined;
-
-  const maxPriceFilter: Prisma.FloatFilter | undefined =
-    Number(maxprice) !== undefined && Number(maxprice) >= 0
-      ? { lte: Number(maxprice) }
-      : undefined;
-
-  const countTeste = await prisma.cars.count({
-    where: {
-      brand: { ...brandFilter, mode: "insensitive" },
-      model: { ...modelFilter, mode: "insensitive" },
-      year: { ...yearFilter },
-      fuelType: { ...fuelFilter },
-      color: { ...colorFilter, mode: "insensitive" },
-      mileage: {
-        ...minMileageFilter,
-        ...maxMileageFilter,
-      },
-      price: {
-        ...minPriceFilter,
-        ...maxPriceFilter,
-      },
-    },
+  const count = await prisma.cars.count({
+    where: { ...searchParams },
   });
 
+  const pages: number = Math.ceil(count / perPage!);
+
+  const prevPage: string | null =
+    page === 1 ? null : `${url}?pageNumber=${page! - 1}&pageSize=${perPage}`;
+  const nextPage: string | null =
+    page! + 1 > pages ? null : `${url}?pageNumber=${page! + 1}&pageSize=${perPage}`;
+
   const cars = await prisma.cars.findMany({
-    where: {
-      brand: { ...brandFilter, mode: "insensitive" },
-      model: { ...modelFilter, mode: "insensitive" },
-      year: { ...yearFilter },
-      fuelType: { ...fuelFilter },
-      color: { ...colorFilter, mode: "insensitive" },
-      mileage: {
-        ...minMileageFilter,
-        ...maxMileageFilter,
-      },
-      price: {
-        ...minPriceFilter,
-        ...maxPriceFilter,
-      },
-    },
+    where: { ...searchParams },
+    skip: page && perPage ? (page - 1) * perPage : 1,
+    take: perPage ? perPage : 9,
     include: {
       user: {
         select: {
@@ -387,8 +309,14 @@ const filterCarsService = async (
       carImages: true,
     },
   });
-
-  return cars;
+  
+  return {
+    nextPage,
+    prevPage,
+    pages: pages,
+    items: count,
+    data: cars,
+  }
 };
 
 export {
@@ -401,5 +329,5 @@ export {
   updateImageCarService,
   createImageCarService,
   filterCarsService,
-  deleteImageCarService
+  deleteImageCarService,
 };

@@ -13,7 +13,7 @@ import {
   updateImageCarService,
 } from "../services";
 import { filterCarsService } from "../services/cars.services";
-import { TFilterRequest } from "../interfaces/cars.inferfaces";
+import { TFilterRequest, TFilterResponse } from "../interfaces/cars.inferfaces";
 
 const createCarsController = async (req: Request, res: Response) => {
   const userId = res.locals.id;
@@ -88,8 +88,8 @@ const deleteImageCarsIdController = async (req: Request, res: Response) => {
 
 const filterCarsController = async (req: Request, res: Response) => {
   const body: TFilterRequest = req.query;
-  const cars: Cars[] | [] = await filterCarsService(body)
-  return res.status(200).json(cars);
+  const response: TFilterResponse = await filterCarsService(body)
+  return res.status(200).json(response);
 }
 
 export {
