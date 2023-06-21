@@ -8,6 +8,7 @@ import {
   getCarsIdUserController,
   updateCarsIdController,
   updateImagesCarController,
+  deleteImageCarsIdController
 } from "./cars.controllers";
 import { createLoginController } from "./login.controllers";
 import {
@@ -44,4 +45,5 @@ export {
   filterCarsController,
   createCommentController,
   getCommentsController,
+  deleteImageCarsIdController
 };

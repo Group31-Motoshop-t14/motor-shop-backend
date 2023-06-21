@@ -3,6 +3,7 @@ import {
   createCarsController,
   createImagesCarController,
   deleteCarsIdController,
+  deleteImageCarsIdController,
   getCarsController,
   getCarsIdController,
   getCarsIdUserController,
@@ -49,6 +50,13 @@ carsRoutes.patch(
   ensureIdCarExistsMiddleware,
   validateBodyMiddleware(imageUpdate),
   updateImagesCarController
+);
+carsRoutes.delete(
+  "/:id/image/:imageId",
+  validateTokenMiddleware,
+  verifyAdvertiserMiddleware,
+  ensureIdCarExistsMiddleware,
+  deleteImageCarsIdController
 );
 carsRoutes.post(
   "/:id/image",

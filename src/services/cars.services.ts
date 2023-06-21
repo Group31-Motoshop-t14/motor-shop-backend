@@ -219,6 +219,32 @@ const updateImageCarService = async (
   return updateImage;
 };
 
+const deleteImageCarService = async (
+  carId: string,
+  imageId: string,
+  userId: string
+): Promise<void> => {
+  const findImage: CarImages | null = await prisma.carImages.findFirst({
+    where: {
+      id: imageId,
+    },
+  });
+
+  if (!findImage) {
+    throw new AppError("image not exists", 404);
+  }
+
+  if (findImage.carId != carId) {
+    throw new AppError("You can delete your images", 403);
+  }
+
+  await prisma.carImages.delete({
+    where: {
+      id: imageId,
+    },
+  });
+};
+
 const deleteCarsIdService = async (
   carId: string,
   userId: string
@@ -375,4 +401,5 @@ export {
   updateImageCarService,
   createImageCarService,
   filterCarsService,
+  deleteImageCarService
 };

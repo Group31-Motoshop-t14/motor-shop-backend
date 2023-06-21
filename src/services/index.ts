@@ -17,6 +17,7 @@ import {
   deleteCarsIdService,
   updateImageCarService,
   createImageCarService,
+  deleteImageCarService
 } from "./cars.services";
 
 import { createCommentService, getCommentsService } from "./comments.services";
@@ -39,4 +40,5 @@ export {
   createImageCarService,
   createCommentService,
   getCommentsService,
+  deleteImageCarService
 };
