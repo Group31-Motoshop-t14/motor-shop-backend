@@ -15,6 +15,7 @@ CREATE TABLE "users" (
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "isDeleted" BOOLEAN NOT NULL DEFAULT false,
+    "reset_token" TEXT,
 
     CONSTRAINT "users_pkey" PRIMARY KEY ("id")
 );
@@ -55,12 +56,13 @@ CREATE TABLE "cars" (
 
 -- CreateTable
 CREATE TABLE "comments" (
+    "id" TEXT NOT NULL,
     "content" TEXT NOT NULL,
     "userId" TEXT NOT NULL,
     "carId" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
-    CONSTRAINT "comments_pkey" PRIMARY KEY ("userId","carId")
+    CONSTRAINT "comments_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
