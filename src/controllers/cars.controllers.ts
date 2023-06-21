@@ -5,6 +5,7 @@ import {
   createCarsService,
   createImageCarService,
   deleteCarsIdService,
+  deleteImageCarService,
   getCarsIdService,
   getCarsService,
   getCarsUserIdService,
@@ -22,26 +23,26 @@ const createCarsController = async (req: Request, res: Response) => {
 
 const getCarsController = async (req: Request, res: Response) => {
   const cars: ICars[] = await getCarsService();
-  return res.status(201).json(cars);
+  return res.status(200).json(cars);
 };
 
 const getCarsIdUserController = async (req: Request, res: Response) => {
   const userId = req.params.id;
   const cars: ICars[] = await getCarsUserIdService(userId);
-  return res.status(201).json(cars);
+  return res.status(200).json(cars);
 };
 
 const getCarsIdController = async (req: Request, res: Response) => {
   const carId = req.params.id;
   const car: ICars = await getCarsIdService(carId);
-  return res.status(201).json(car);
+  return res.status(200).json(car);
 };
 
 const updateCarsIdController = async (req: Request, res: Response) => {
   const carId = req.params.id;
   const userId = res.locals.id;
   const car: ICarsUpdate = await updateCarsIdService(carId, req.body, userId);
-  return res.status(201).json(car);
+  return res.status(200).json(car);
 };
 
 const updateImagesCarController = async (req: Request, res: Response) => {
@@ -54,7 +55,7 @@ const updateImagesCarController = async (req: Request, res: Response) => {
     imageId,
     userId
   );
-  return res.status(201).json(carImages);
+  return res.status(200).json(carImages);
 };
 
 const createImagesCarController = async (req: Request, res: Response) => {
@@ -77,6 +78,14 @@ const deleteCarsIdController = async (req: Request, res: Response) => {
   return res.status(204).json();
 };
 
+const deleteImageCarsIdController = async (req: Request, res: Response) => {
+  const carId = req.params.id;
+  const imageId = req.params.imageId;
+  const userId = res.locals.id;
+  await deleteImageCarService(carId, imageId, userId);
+  return res.status(204).json();
+};
+
 const filterCarsController = async (req: Request, res: Response) => {
   const body: TFilterRequest = req.query;
   const cars: Cars[] | [] = await filterCarsService(body)
@@ -92,5 +101,6 @@ export {
   deleteCarsIdController,
   updateImagesCarController,
   createImagesCarController,
-  filterCarsController
+  filterCarsController,
+  deleteImageCarsIdController 
 };
