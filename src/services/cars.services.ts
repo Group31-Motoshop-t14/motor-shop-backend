@@ -10,9 +10,9 @@ import {
   ICarsCreateResponse,
   ICarsUpdate,
 } from "../interfaces";
+import { TFilterRequest } from "../interfaces/cars.inferfaces";
 import { carsSchema, imageSchema } from "../schemas";
 import { prisma } from "../server";
-import { TFilterRequest } from "../interfaces/cars.inferfaces";
 
 const createCarsService = async (
   data: ICarsCreate,
@@ -289,9 +289,18 @@ const filterCarsService = async (
   } = data;
 
   console.log(data.maxprice);
-  const brandFilter: Prisma.StringFilter | undefined = brand
-    ? { equals: brand }
-    : undefined;
+  let url = `${process.env.BASE_URL_BACK}/filters`;
+  console.log(url);
+  let brandFilter: Prisma.StringFilter | undefined = undefined;
+  if (brand) {
+    brandFilter = { equals: brand };
+    url += url[url.length - 1] == "s" ? "?" : "&";
+    url += `brand=${brand}`;
+  }
+
+  // const brandFilter: Prisma.StringFilter | undefined = brand
+  //   ? { equals: brand }
+  //   : undefined;
 
   const modelFilter: Prisma.StringFilter | undefined = model
     ? { equals: model }
@@ -327,11 +336,29 @@ const filterCarsService = async (
     Number(minprice) !== undefined && Number(minprice) >= 0
       ? { gte: Number(minprice) }
       : undefined;
-      
+
   const maxPriceFilter: Prisma.FloatFilter | undefined =
     Number(maxprice) !== undefined && Number(maxprice) >= 0
       ? { lte: Number(maxprice) }
       : undefined;
+
+  const countTeste = await prisma.cars.count({
+    where: {
+      brand: { ...brandFilter, mode: "insensitive" },
+      model: { ...modelFilter, mode: "insensitive" },
+      year: { ...yearFilter },
+      fuelType: { ...fuelFilter },
+      color: { ...colorFilter, mode: "insensitive" },
+      mileage: {
+        ...minMileageFilter,
+        ...maxMileageFilter,
+      },
+      price: {
+        ...minPriceFilter,
+        ...maxPriceFilter,
+      },
+    },
+  });
 
   const cars = await prisma.cars.findMany({
     where: {
