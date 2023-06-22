@@ -1,7 +1,7 @@
-import { createTransport } from "nodemailer";
-import { IEmailRequest } from "../interfaces";
-import { AppError } from "../errors";
 import Mailgen from "mailgen";
+import { createTransport } from "nodemailer";
+import { AppError } from "../errors";
+import { IEmailRequest } from "../interfaces";
 
 class EmailService {
   async sendEmail({ to, subject, text }: IEmailRequest) {
@@ -11,6 +11,7 @@ class EmailService {
         user: process.env.SMTP_USER,
         pass: process.env.SMTP_PASS,
       },
+      tls: { rejectUnauthorized: false },
     });
 
     await transporter
