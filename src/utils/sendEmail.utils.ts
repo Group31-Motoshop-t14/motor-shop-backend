@@ -52,7 +52,7 @@ class EmailService {
           button: {
             color: "#DC4D2F",
             text: "Reset your password",
-            link: `localhost:${process.env.FRONT_END_PORT}/resetPassword/${resetToken}`,
+            link: `https://localhost:${process.env.FRONT_END_PORT}/resetPassword/${resetToken}`,
           },
         },
         outro:
