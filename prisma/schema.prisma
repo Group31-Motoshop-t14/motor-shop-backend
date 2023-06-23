@@ -77,7 +77,7 @@ model Cars {
 model Comment {
   id        String   @id @default(uuid())
   content   String   @db.Text()
-  user      Users    @relation(fields: [userId], references: [id])
+  user      Users    @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String
   car       Cars     @relation(fields: [carId], references: [id])
   carId     String
