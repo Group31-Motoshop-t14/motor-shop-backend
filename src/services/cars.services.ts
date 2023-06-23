@@ -284,7 +284,7 @@ const filterCarsService = async (
   }
 
   const count = await prisma.cars.count({
-    where: { ...searchParams, NOT: { user: { isDeleted: true } } },
+    where: { ...searchParams, isPublished: true },
   });
 
   const pages: number = Math.ceil(count / perPage!);
@@ -297,7 +297,7 @@ const filterCarsService = async (
       : `${url}?pageNumber=${page! + 1}&pageSize=${perPage}`;
 
   const cars = await prisma.cars.findMany({
-    where: { ...searchParams, NOT: { user: { isDeleted: true } } },
+    where: { ...searchParams, isPublished: true },
     skip: page && perPage ? (page - 1) * perPage : 1,
     take: perPage ? perPage : 9,
     include: {
