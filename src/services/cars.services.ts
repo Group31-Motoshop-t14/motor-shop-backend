@@ -284,7 +284,7 @@ const filterCarsService = async (
   }
 
   const count = await prisma.cars.count({
-    where: { ...searchParams },
+    where: { ...searchParams, isPublished: true },
   });
 
   const pages: number = Math.ceil(count / perPage!);
@@ -292,10 +292,12 @@ const filterCarsService = async (
   const prevPage: string | null =
     page === 1 ? null : `${url}?pageNumber=${page! - 1}&pageSize=${perPage}`;
   const nextPage: string | null =
-    page! + 1 > pages ? null : `${url}?pageNumber=${page! + 1}&pageSize=${perPage}`;
+    page! + 1 > pages
+      ? null
+      : `${url}?pageNumber=${page! + 1}&pageSize=${perPage}`;
 
   const cars = await prisma.cars.findMany({
-    where: { ...searchParams },
+    where: { ...searchParams, isPublished: true },
     skip: page && perPage ? (page - 1) * perPage : 1,
     take: perPage ? perPage : 9,
     include: {
@@ -309,14 +311,14 @@ const filterCarsService = async (
       carImages: true,
     },
   });
-  
+
   return {
     nextPage,
     prevPage,
     pages: pages,
     items: count,
     data: cars,
-  }
+  };
 };
 
 export {
