@@ -9,3 +9,88 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+enum Fuel {
+  ETANOL
+  FLEX
+  HIBRIDO
+  ELETRICO
+}
+
+model Users {
+  id           String    @id @default(uuid())
+  name         String    @db.VarChar(120)
+  email        String    @unique @db.VarChar(120)
+  password     String    @db.VarChar(120)
+  cpf          String    @unique @db.VarChar(11)
+  phone        String    @db.VarChar(13)
+  birthDate    DateTime
+  description  String    @db.Text()
+  isAdvertiser Boolean   @default(false)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  isDeleted    Boolean   @default(false)
+  address      Address?
+  car          Cars[]
+  cars         Comment[]
+  reset_token  String?
+
+  @@map("users")
+}
+
+model Address {
+  id         String  @id @default(uuid())
+  zipCode    String  @db.VarChar(8)
+  state      String  @db.VarChar(2)
+  city       String  @db.VarChar(100)
+  street     String  @db.VarChar(100)
+  number     String  @db.VarChar(50)
+  complement String? @db.VarChar(100)
+  user       Users   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId     String  @unique
+
+  @@map("addresses")
+}
+
+model Cars {
+  id          String      @id @default(uuid())
+  brand       String      @db.VarChar(150)
+  model       String      @db.VarChar(150)
+  year        String      @db.VarChar(4)
+  fuelType    Fuel
+  mileage     Int         @db.Integer()
+  color       String      @db.VarChar(150)
+  fipePrice   Float
+  price       Float
+  description String      @db.Text()
+  createdAt   DateTime    @default(now())
+  isPublished Boolean     @default(true)
+  coverImage  String      @db.Text()
+  user        Users       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      String
+  users       Comment[]
+  carImages   CarImages[]
+
+  @@map("cars")
+}
+
+model Comment {
+  id        String   @id @default(uuid())
+  content   String   @db.Text()
+  user      Users    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+  car       Cars     @relation(fields: [carId], references: [id], onDelete: Cascade)
+  carId     String
+  createdAt DateTime @default(now())
+
+  @@map("comments")
+}
+
+model CarImages {
+  id    String @id @default(uuid())
+  url   String
+  car   Cars   @relation(fields: [carId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  carId String
+
+  @@map("carImages")
+}
