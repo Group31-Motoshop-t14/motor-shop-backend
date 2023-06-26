@@ -1,4 +1,4 @@
-import { CarImages, Cars, Fuel, Prisma } from "@prisma/client";
+import { CarImages, Cars } from "@prisma/client";
 import { AppError } from "../errors";
 import {
   ICarImage,
@@ -13,7 +13,6 @@ import {
 import { TFilterRequest, TFilterResponse } from "../interfaces/cars.inferfaces";
 import { carsSchema, imageSchema } from "../schemas";
 import { prisma } from "../server";
-import { equal } from "assert";
 import filterParams from "../utils/filter.utils";
 
 const createCarsService = async (
@@ -283,9 +282,33 @@ const filterCarsService = async (
       Number(pageSize) > 0 && Number(pageSize) <= 9 ? Number(pageSize) : 9;
   }
 
-  const count = await prisma.cars.count({
-    where: { ...searchParams, isPublished: true },
+  let validParams = false;
+  const arrayTest = [
+    "brand",
+    "model",
+    "year",
+    "fuelType",
+    "color",
+    "mileage",
+    "price",
+  ];
+  const newSearchParams: any = { ...searchParams };
+  arrayTest.forEach((params: string) => {
+    if (newSearchParams[params]["equals"]) {
+      validParams = true;
+    }
   });
+
+  let count = 0;
+  if (validParams) {
+    count = await prisma.cars.count({
+      where: { ...searchParams, isPublished: true },
+    });
+  } else {
+    count = await prisma.cars.count({
+      where: { isPublished: true },
+    });
+  }
 
   const pages: number = Math.ceil(count / perPage!);
 
