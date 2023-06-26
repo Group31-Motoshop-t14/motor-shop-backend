@@ -39,7 +39,7 @@ class EmailService {
       theme: "default",
       product: {
         name: "Redefinição de senha MotorShop",
-        link: `http://localhost:${process.env.FRONT_END_PORT}/`,
+        link: `${process.env.BASE_URL_FRONT}/`,
       },
     });
 
@@ -53,7 +53,7 @@ class EmailService {
           button: {
             color: "#DC4D2F",
             text: "Reset your password",
-            link: `http://localhost:${process.env.FRONT_END_PORT}/resetPassword/${resetToken}`,
+            link: `${process.env.BASE_URL_FRONT}/resetPassword/${resetToken}`,
           },
         },
         outro:
