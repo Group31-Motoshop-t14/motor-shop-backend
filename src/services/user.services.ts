@@ -1,13 +1,12 @@
-import { randomUUID } from "node:crypto";
 import { Address, Users } from "@prisma/client";
 import { hashSync } from "bcryptjs";
 import jwt from "jsonwebtoken";
+import { v4 as uuidv4 } from "uuid";
 import { AppError } from "../errors";
 import {
   IAddress,
   ICreateUser,
   ICreateUserResponse,
-  IUpdateUserResponse,
   IUser,
 } from "../interfaces";
 import {
@@ -19,7 +18,6 @@ import {
   addressPartialSchema,
   addressSchema,
   createUserSchemaResponse,
-  updateUserSchema,
   userListSchema,
   userPartialSchema,
   userSchema,
@@ -130,7 +128,7 @@ const listAllUsersService = async (): Promise<IListUser[]> => {
 
 const deleteUserService = async (userId: string): Promise<void> => {
   await prisma.users.delete({
-    where: { id: userId }    
+    where: { id: userId },
   });
 };
 const recoverUserService = async (
@@ -163,7 +161,7 @@ const sendEmailResetPasswordService = async (email: string) => {
     throw new AppError("User not found", 404);
   }
 
-  const resetToken = randomUUID();
+  const resetToken = uuidv4();
 
   await prisma.users.update({
     where: { email },
