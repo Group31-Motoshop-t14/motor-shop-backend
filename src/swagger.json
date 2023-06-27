@@ -13,6 +13,10 @@
     {
       "url": "http://localhost:4000/",
       "description": "Ambiente de Teste"
+    },
+    {
+      "url": "https://motor-shop-t14.onrender.com",
+      "description": "Ambiente de Produçao"
     }
   ],
   "paths": {
