@@ -1,7 +1,7 @@
 # Motor-Shop-API
 
 É uma API RESTful desenvolvida utilizando Node.js, Express, Prisma e PostgreSQL para gerenciar uma loja de veículos automotivos.
-Esta API é utilizada em produção na aplicação [Motor-Shop](https://motor-shop-front-lac.vercel.app/), a qual pode ter seu repositório acessado neste [link](https://github.com/AntonioSantosBJPE/contacts-books-frontend) .
+Esta API é utilizada em produção na aplicação [Motor-Shop](https://motor-shop-front-lac.vercel.app/), a qual pode ter seu repositório acessado neste [link](https://github.com/Group31-Motoshop-t14/motor-shop-front) .
 A API permite que os usuários se cadastrem como clientes ou anunciantes, façam login na aplicação, atualizem ou excluam suas informações de perfil e visualizem a lista de veículos anunciados. Os anunciantes podem criar, atualizar e excluir seus anúncios de veículos. 
 
 ---
@@ -15,7 +15,6 @@ A API permite que os usuários se cadastrem como clientes ou anunciantes, façam
   - [Variáveis de Ambiente](#32-variáveis-de-ambiente)
   - [Migrations](#33-migrations)
   - [Rodando a API](#34-rodando-a-api)
-  - [Testes](#35-testes)
 - [Documentação da API](#4-documentação-da-api)
 - [Estrutura da API](#5-estrutura-da-api)
   
@@ -67,13 +66,13 @@ Em seguida, crie um arquivo **.env**, copiando o formato do arquivo **.env.examp
 cp .env.example .env
 ```
 
-Configure suas variáveis de ambiente com suas credenciais do Postgres e uma nova database da sua escolha, a porta do localhost, a chave secreta para criação do hash da senha, o SMTP_USER e o SMTP_PASS para ser utilizado como e-mail que enviará a recuperação de senha e a porta do Fortn-End em caso de estar utilizando ele localmente também.
+Configure suas variáveis de ambiente com suas credenciais do Postgres e uma nova database da sua escolha, a porta do localhost, a chave secreta para criação do hash da senha, o SMTP_USER e o SMTP_PASS para ser utilizado como e-mail que enviará a recuperação de senha, a url base do Back-End e a url base do Front-End para ser utilizada a recuperação de senha.
 
 ### 3.3. Migrations
 Suba suas migrations com o comando:
 
 ```
-yarn run typeorm migration:run -- -d ./src/data-source
+npx prisma migrate dev
 ```
 
 ### 3.4. Rodando a API
@@ -91,38 +90,14 @@ yarn run build
 ```
 
 ```
-yarn typeorm migration:run -d dist/data-source
-```
-
-```
 yarn run start
 ```
-
-### 3.5. Testes
-Execute o seguinte comando no terminal:
-
-```
-yarn run test
-```
-
-Você pode tambem rodar os testes individualmente:
-
-```
-yarn run test <Nome do arquivo.router.spec.ts>
-```
-
----
 
 ## 4. Documentação da API
 
 [ Voltar para o topo ](#tabela-de-conteúdos)
 
-É possivel acessar a documentação da API criada com Swagger de forma local utilizando o endpoint /api-docs/ ou pelo link ([Contacts-Book-Documentação-local](http://localhost:3000/api-docs/#/)) , lembrando que é necessário que o servidor esteja rodando de forma local, para o link funcionar.
-Essa documentação descreve os recusos que a API possuí, como Endpoints, exemplos de requisição, exemplos de retorno e metodos de autenticação.
-Também é possível acessar a documentação da API pelos seguintes links:
-
-- [Contacts-Book-Documentação-em-produção](https://contacts-book-api-6ydl.onrender.com/api-docs/)
-- [Contacts-Book-Documentação-site-swagger](https://app.swaggerhub.com/apis-docs/CONTACTSBOOKSDEPLOY_1/Contacts-Book-API/1.0.0)
+Ainda em desenvolvimento.
 
 ---
 
@@ -132,37 +107,49 @@ Também é possível acessar a documentação da API pelos seguintes links:
 
 ### Índice
 
-- [Clients](#1-clients)
-    - POST - /clients
-    - GET - /clients/profile/:clientId
-    - PATCH - /clients/profile/:clientId
-    - DELETE - /clients/profile/:clientId
-    - GET - /clients/profile/:clientId/contacts
-    - GET - /clients/profile/
-    - POST - /login
-- [Contacts](#2-contacts)
-    - POST - /contacts
-    - GET - /contacts/:contactId
-    - PATCH - /contacts/:contactId
-    - DELETE - /contacts/:contacttId
+- [Users](#1-users)
+    - POST - /user
+    - GET - /user
+    - GET - /user/all
+    - PATCH - /user
+    - DELETE - /user
+    - PUT - /user
+    - POST - /clients/resetPassword
+    - PATCH - /user/resetPassword/:resetTokenId
+- [Cars](#2-cars)
+    - POST - /cars
+    - GET - /cars
+    - GET - /cars/user/:userId
+    - GET - /cars/:carId
+    - PATCH - /cars/:carId
+    - DELETE - /cars/:carId
+- [Comments](#2-comments)
+    - POST - /comments/:carId
+    - GET - /comments/:carId
+- [Comments](#2-comments)
+    - GET - /filters?:filterName=:filterValue (paramêtro de filtragem opcional)
  
 ---
 
-## 1. **Clients**
+## 1. **Users**
 [ Voltar para a Estrutura da API ](#5-estrutura-da-api)
 
-O objeto Client é definido como:
+O objeto User é definido como:
 
-| Campo      | Tipo   | Descrição                                     |
-| -----------|--------|-------------------------------------------------|
-| id         | UUID   | Identificador único do cliente                  |
-| name       | string | O nome do cliente.                              |
-| email      | string | O e-mail do cliente.                            |
-| phone      | string | O telefone do cliente.                          |
-| password   | string | A senha de acesso do cliente                    |
-| createdAt  | string | A data de registro do cliente                   |
-| updatedAt  | string | A data de atualiazação do registro do cliente   |
-| deletedAt  | string | A data de deleção do registro do cliente        |
+| Campo         | Tipo     | Descrição                                       |
+| --------------|----------|-------------------------------------------------|
+| id            | UUID     | Identificador único do usuário                  |
+| name          | string   | O nome do usuário                               |
+| email         | string   | O e-mail do usuário                             |
+| password      | string   | A senha de acesso do usuário                    |
+| cpf           | string   | O cpf do usuário                                |
+| phone         | string   | O telefone do usuário                           |
+| birthDate     | DateTime | Data de nascimento do usuário                   |
+| description   | string   | Descrição do usuário                            |
+| isAdvertiser  | boolean  | Se o usuário é ou não anunciante                |
+| createdAt     | DateTime | A data de registro do usuário                   |
+| updatedAt     | DateTime | A data de atualiazação do registro do usuário   |
+| isDeleted     | boolean  | Se o usuário foi deletado                       |
 
 ### Endpoints
 
