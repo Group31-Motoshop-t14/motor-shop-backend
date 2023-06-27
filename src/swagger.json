@@ -1,0 +1,813 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Motor Shop API",
+    "description": "Motor Shop API é uma API RESTful desenvolvida utilizando Node.js, Express, Prisma e um banco de dados Postgres. A API permite o cadastro de usuários, do tipo anunciante ou comprador, a criação de anúncios, e a criação de comentários nos anúncios.",
+    "termsOfService": "http://localhost:4000/terms",
+    "contact": {
+      "email": "netoifpe@gmail.com"
+    },
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:4000/",
+      "description": "Ambiente de Teste"
+    }
+  ],
+  "paths": {
+    "/user": {
+      "post": {
+        "tags": ["User"],
+        "summary": "Cadastro de novo usuário",
+        "description": "Esta rota é responsável por criar um novo usuário. ",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User_create"
+              },
+              "example": {
+                "name": "Antonio Santos Teste ",
+                "email": "teste@mail.com",
+                "cpf": "31167681933",
+                "password": "123456Ab*",
+                "phone": "5581411234789",
+                "birthDate": "2023-02-30T12:27:58.516Z",
+                "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ",
+                "zipCode": "55155450",
+                "state": "PE",
+                "city": "Belo Jardim",
+                "street": "Rua Francisco Bezerra",
+                "number": "100",
+                "complement": "Teste",
+                "isAdvertiser": true
+              }
+            }
+          }
+        },
+
+        "responses": {
+          "201": {
+            "description": "OK - Criação de usuário realizado com sucesso",
+            "content": {
+              "application/json": {
+                "example": {
+                  "name": "Antonio Santos Teste ",
+                  "email": "teste@mail.com",
+                  "cpf": "31167681933",
+                  "phone": "5581411234789",
+                  "birthDate": "2023-03-02T12:27:58.516Z",
+                  "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ",
+                  "isAdvertiser": true,
+                  "id": "d50efdcd-f3df-4e6a-b18e-1d1b59068e98",
+                  "createdAt": "2023-06-26T21:29:46.294Z",
+                  "updatedAt": "2023-06-26T21:29:46.294Z",
+                  "address": {
+                    "zipCode": "55155450",
+                    "state": "PE",
+                    "city": "Belo Jardim",
+                    "street": "Rua Francisco Bezerra",
+                    "number": "100",
+                    "complement": "Teste",
+                    "id": "71d7cd78-c773-4bce-9feb-62689865ccf5"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Alguma chave obrigatória não foi enviada ou está em um formato inválido.",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "bad_request_keys_required": {
+                    "value": {
+                      "message": {
+                        "name": ["Required"],
+                        "email": ["Required"],
+                        "cpf": ["Required"],
+                        "password": ["Required"],
+                        "phone": ["Required"],
+                        "birthDate": ["Required"],
+                        "description": ["Required"],
+                        "zipCode": ["Required"],
+                        "state": ["Required"],
+                        "city": ["Required"],
+                        "street": ["Required"],
+                        "number": ["Required"],
+                        "complement": ["Required"]
+                      }
+                    }
+                  },
+                  "bad_request_invalid_email": {
+                    "value": {
+                      "message": {
+                        "email": ["Invalid email"]
+                      }
+                    }
+                  },
+                  "bad_request_invalid_password": {
+                    "value": {
+                      "message": {
+                        "password": ["Expected string", "received number"]
+                      }
+                    }
+                  },
+                  "bad_request_invalid_birthDate": {
+                    "value": {
+                      "message": {
+                        "password": [
+                          "Invalid datetime string, datetime must be in format YYYY-MM-DDTHH:MM:SSZ, use .toISOString() to convert you date."
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict - Tentativa de criar um usuário com um email ou cpf já cadastrado",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "conflict_invalid_email": {
+                    "value": {
+                      "message": "This email is already in use"
+                    }
+                  },
+                  "conflict_invalid_cpf": {
+                    "value": {
+                      "message": "This CPF is already in use"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Internal Server Error."
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": ["User"],
+        "summary": "Listar dados de um usuário",
+        "description": "Esta rota é responsável listar os dados um usuário cadastrado. É necessário apenas enviar o token de autentificação. ",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "example": {
+                  "name": "Antonio Santos Teste ",
+                  "email": "teste@mail.com",
+                  "cpf": "31167681933",
+                  "phone": "5581411234789",
+                  "birthDate": "2023-03-02T12:27:58.516Z",
+                  "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ",
+                  "isAdvertiser": true,
+                  "id": "d50efdcd-f3df-4e6a-b18e-1d1b59068e98",
+                  "createdAt": "2023-06-26T21:29:46.294Z",
+                  "updatedAt": "2023-06-26T21:29:46.294Z",
+                  "address": {
+                    "zipCode": "55155450",
+                    "state": "PE",
+                    "city": "Belo Jardim",
+                    "street": "Rua Francisco Bezerra",
+                    "number": "100",
+                    "complement": "Teste",
+                    "id": "71d7cd78-c773-4bce-9feb-62689865ccf5"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Não foi enviado um token de autorização, o token enviado expirou ou o token é inválido.",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "missing_bearer_token": {
+                    "value": {
+                      "message": "Missing bearer token"
+                    }
+                  },
+                  "jwt_expired": {
+                    "value": {
+                      "message": "jwt expired"
+                    }
+                  },
+                  "invalid_token": {
+                    "value": {
+                      "message": "JWT Invalid"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Internal Server Error."
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["User"],
+        "summary": "Deletar a conta de um usuário",
+        "description": "Esta rota é responsável apagar os dados um usuário cadastrado. É necessário apenas enviar o token de autentificação. ",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "OK -"
+          },
+          "401": {
+            "description": "Unauthorized - Não foi enviado um token de autorização, o token enviado expirou ou o token é inválido.",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "missing_bearer_token": {
+                    "value": {
+                      "message": "Missing bearer token"
+                    }
+                  },
+                  "jwt_expired": {
+                    "value": {
+                      "message": "jwt expired"
+                    }
+                  },
+                  "invalid_token": {
+                    "value": {
+                      "message": "JWT Invalid"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Internal Server Error."
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": ["User"],
+        "summary": "Atualizar os dados da conta de um usuário",
+        "description": "Esta rota é responsável por atualizar os dados um usuário cadastrado. É necessário enviar o token de autentificação e o corpo da requisição com os dados a serem atualizados, contendo ao menos uma chave válida. ",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User_update"
+              },
+              "example": {
+                "name": "teste rota update",
+                "description": " teste da rota de update"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "example": {
+                  "name": "teste rota update",
+                  "email": "teste@mail.com",
+                  "cpf": "31167681933",
+                  "phone": "5581411234789",
+                  "birthDate": "2023-03-02T12:27:58.516Z",
+                  "description": " teste da rota de update",
+                  "isAdvertiser": true,
+                  "id": "e1a35278-33d5-4af2-8abc-b0bf2e3700d9",
+                  "createdAt": "2023-06-26T22:00:08.613Z",
+                  "updatedAt": "2023-06-26T22:00:08.613Z",
+                  "address": {
+                    "zipCode": "55155450",
+                    "state": "PE",
+                    "city": "Belo Jardim",
+                    "street": "Rua Francisco Bezerra",
+                    "number": "100",
+                    "complement": "Teste",
+                    "id": "1ddce378-2e8e-4bc1-a73c-f20fcc81f219"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Ao menos uma chave obrigatória não foi enviada ou está em um formato inválido.",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "bad_request_keys_required": {
+                    "value": {
+                      "message": "At least one key is required: name, email, cpf, password, phone, birthDate, description, isAdvertiser, zipCode, state, city, street, number, complement"
+                    }
+                  },
+                  "bad_request_invalid_email": {
+                    "value": {
+                      "message": {
+                        "email": ["Invalid email"]
+                      }
+                    }
+                  },
+                  "bad_request_invalid_password": {
+                    "value": {
+                      "message": {
+                        "password": ["Expected string", "received number"]
+                      }
+                    }
+                  },
+                  "bad_request_invalid_birthDate": {
+                    "value": {
+                      "message": {
+                        "password": [
+                          "Invalid datetime string, datetime must be in format YYYY-MM-DDTHH:MM:SSZ, use .toISOString() to convert you date."
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Não foi enviado um token de autorização, o token enviado expirou ou o token é inválido.",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "missing_bearer_token": {
+                    "value": {
+                      "message": "Missing bearer token"
+                    }
+                  },
+                  "jwt_expired": {
+                    "value": {
+                      "message": "jwt expired"
+                    }
+                  },
+                  "invalid_token": {
+                    "value": {
+                      "message": "JWT Invalid"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Internal Server Error."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/profile/{userId}": {
+      "get": {
+        "tags": ["User"],
+        "summary": "Listar dados de um usuário",
+        "description": "Esta rota é responsável listar os dados um usuário cadastrado. É necessário enviar o id do usuário. ",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "ID do usuário",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "example": {
+                  "name": "Antonio Santos Teste ",
+                  "email": "teste@mail.com",
+                  "cpf": "31167681933",
+                  "phone": "5581411234789",
+                  "birthDate": "2023-03-02T12:27:58.516Z",
+                  "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ",
+                  "isAdvertiser": true,
+                  "id": "d50efdcd-f3df-4e6a-b18e-1d1b59068e98",
+                  "createdAt": "2023-06-26T21:29:46.294Z",
+                  "updatedAt": "2023-06-26T21:29:46.294Z",
+                  "address": {
+                    "zipCode": "55155450",
+                    "state": "PE",
+                    "city": "Belo Jardim",
+                    "street": "Rua Francisco Bezerra",
+                    "number": "100",
+                    "complement": "Teste",
+                    "id": "71d7cd78-c773-4bce-9feb-62689865ccf5"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - Usuário não foi encontrado a partir do id enviado.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "User not found"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Internal Server Error."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/resetPassword": {
+      "post": {
+        "tags": ["User"],
+        "summary": "Solicitar a redefinição de senha",
+        "description": "Esta rota é responsável por solicitar a redefinição de senha de um usuário.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User_reset_password"
+              },
+              "example": {
+                "email": "teste@mail.com"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Token send"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - Usuário não foi encontrado a partir do email enviado.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "User not found"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Internal Server Error."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "user/resetPassword/{token}": {
+      "patch": {
+        "tags": ["User"],
+        "summary": "Cadastra a nova senha criada pelo usuário",
+        "description": "Esta rota é responsável por cadastrar a nova senha criada pelo usuário ao redefinir sua senha.",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "path",
+            "description": "Token de redefinição de senha",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User_reset_password_create_new_password"
+              },
+              "example": {
+                "password": "123456Ab*"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Password has been changed with success"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - Usuário não foi encontrado a partir do token enviado.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "User not found"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Internal Server Error."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/login": {
+      "post": {
+        "tags": ["Login"],
+        "summary": "Autentificação de usuário cadastrado",
+        "description": "Esta rota é responsável por fazer o login de um usuário cadastrado. As chaves \"email\" e \"password\" são obrigatórias e chaves extras enviadas são desconsideradas. Ao realizar o login será retornado o token de acesso \"token\", que será enviado nas rotas que necessitam de autorização.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Login"
+              },
+              "example": {
+                "email": "teste@mail.com",
+                "password": "12345Ab*"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "example": {
+                  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im5ldG9pZnBlMkBnbWFpbC5jb20iLCJhZG1pbiI6dHJ1ZSwidHlwZSI6ImFjY2VzcyIsImlhdCI6MTY4MjA5MjY4MywiZXhwIjoxNjgyMDk0NDgzLCJzdWIiOiIyIn0.y4xXMb7pFSZ77_Q3jv9IPS_njk-i3XcoYPZwumfjGrU"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Alguma chave obrigatória não foi enviada ou está em um formato inválido.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": {
+                    "email": ["required"],
+                    "password": ["required"]
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - O email ou o password estão errados",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Invalid credentials"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Internal Server Error."
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "User_create": {
+        "required": [
+          "email",
+          "name",
+          "password",
+          "cpf",
+          "phone",
+          "birthDate",
+          "description",
+          "zipCode",
+          "state",
+          "city",
+          "street",
+          "number",
+          "complement",
+          "isAdvertiser"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "cpf": {
+            "type": "string"
+          },
+          "phone": {
+            "type": "string"
+          },
+          "birthDate": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "zipCode": {
+            "type": "string"
+          },
+          "state": {
+            "type": "string"
+          },
+          "city": {
+            "type": "string"
+          },
+          "street": {
+            "type": "string"
+          },
+          "number": {
+            "type": "string"
+          },
+          "complement": {
+            "type": "string"
+          },
+          "isAdvertiser": {
+            "type": "boolean"
+          }
+        }
+      },
+      "User_update": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "cpf": {
+            "type": "string"
+          },
+          "phone": {
+            "type": "string"
+          },
+          "birthDate": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "zipCode": {
+            "type": "string"
+          },
+          "state": {
+            "type": "string"
+          },
+          "city": {
+            "type": "string"
+          },
+          "street": {
+            "type": "string"
+          },
+          "number": {
+            "type": "string"
+          },
+          "complement": {
+            "type": "string"
+          },
+          "isAdvertiser": {
+            "type": "boolean"
+          }
+        }
+      },
+      "User_reset_password": {
+        "type": "object",
+        "required": ["email"],
+        "properties": {
+          "email": {
+            "type": "string"
+          }
+        }
+      },
+      "User_reset_password_create_new_password": {
+        "type": "object",
+        "required": ["password"],
+        "properties": {
+          "password": {
+            "type": "string"
+          }
+        }
+      },
+      "Login": {
+        "required": ["email", "password"],
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}

@@ -12,7 +12,7 @@ const validateEmailExistsMiddleware = async (
     where: { email: req.body.email },
   });
   if (verifyUserEmail) {
-    throw new AppError("This email is already in use", 400);
+    throw new AppError("This email is already in use", 409);
   }
   return next();
 };

@@ -12,7 +12,7 @@ const validateCpfMiddleware = async (
     where: { cpf: req.body.cpf },
   });
   if (verifyUserCPF) {
-    throw new AppError("This CPF is already in use", 400);
+    throw new AppError("This CPF is already in use", 409);
   }
   return next();
 };

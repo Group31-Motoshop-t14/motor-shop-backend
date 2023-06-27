@@ -68,7 +68,7 @@ const sendEmailResetPasswordController = async (
 
   await sendEmailResetPasswordService(email);
 
-  return res.status(201).json({ message: "Token send" });
+  return res.status(200).json({ message: "Token send" });
 };
 
 const resetPasswordController = async (req: Request, res: Response) => {
@@ -77,7 +77,7 @@ const resetPasswordController = async (req: Request, res: Response) => {
 
   await resetPasswordService(password, token);
   return res
-    .status(201)
+    .status(200)
     .json({ message: "Password has been changed with success" });
 };
 
