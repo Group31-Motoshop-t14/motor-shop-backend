@@ -9,6 +9,10 @@ import {
   updateUserController,
 } from "../controllers";
 import {
+  resetPasswordController,
+  sendEmailResetPasswordController,
+} from "../controllers/user.controllers";
+import {
   validateBodyMiddleware,
   validateCpfMiddleware,
   validateEmailExistsMiddleware,
@@ -20,10 +24,6 @@ import {
   createUserSchema,
   updateUserSchema,
 } from "../schemas";
-import {
-  resetPasswordController,
-  sendEmailResetPasswordController,
-} from "../controllers/user.controllers";
 import {
   resetPasswordSchema,
   sendEmailResetPasswordSchema,
