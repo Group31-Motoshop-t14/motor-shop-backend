@@ -41,7 +41,7 @@ Segue os links para mais informações sobre as tecnologias utilizadas:
 
 Diagrama ER da API definindo bem as relações entre as tabelas do banco de dados.
 
-![Diagrama do projeto com suas relações!](https://dbdiagram.io/d/64775f24722eb7749426f100)
+![Diagrama do projeto com suas relações!](https://dbdiagram.io/d/64775f24722eb7749426f100/)
 
 ---
 
