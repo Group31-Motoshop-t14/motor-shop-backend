@@ -657,6 +657,1308 @@
           }
         }
       }
+    },
+    "/cars": {
+      "post": {
+        "tags": ["Annoucements"],
+        "summary": "Cadastro de um novo anúncio de carro",
+        "description": "Esta rota é responsável por criar um novo anúncio de carro. É necessário enviar o token de autentificação.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Cars_create"
+              },
+              "example": {
+                "brand": "ford",
+                "model": "ecosport freestyle 1.5 12v flex 5p aut.",
+                "year": "2021",
+                "fuelType": "FLEX",
+                "mileage": 15000,
+                "color": "Azul",
+                "fipePrice": 91213,
+                "price": 90000,
+                "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+                "coverImage": "https://img.freepik.com/fotos-gratis/sedan-de-luxo-vermelho-na-estrada_114579-5079.jpg?w=1380&t=st=1686661554~exp=1686662154~hmac=d38ec69e0894b13fec85474a43b3be6b71c4cdfda39200ceb37e2d6680d3d6b1",
+                "isPublished": true,
+                "url": [
+                  "https://img.freepik.com/fotos-gratis/sedan-de-luxo-vermelho-na-estrada_114579-5079.jpg?w=1380&t=st=1686661554~exp=1686662154~hmac=d38ec69e0894b13fec85474a43b3be6b71c4cdfda39200ceb37e2d6680d3d6b1",
+                  "https://img.freepik.com/premium-psd/isolated-realistic-shiny-brown-modern-city-suv-sport-car-from-right-front-view_16145-5769.jpg?w=1060",
+                  "https://img.freepik.com/premium-psd/isolated-realistic-matte-orange-elegant-sport-city-sedan-car-from-top-left-rear-view_16145-5706.jpg?w=1060"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "OK - Criação de anúncio realizado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Client_return"
+                },
+                "example": {
+                  "id": "c642e18d-3c5e-422a-ae86-afb770414d2c",
+                  "brand": "ford",
+                  "model": "ecosport freestyle 1.5 12v flex 5p aut.",
+                  "year": "2021",
+                  "fuelType": "FLEX",
+                  "mileage": 15000,
+                  "color": "Azul",
+                  "fipePrice": 91213,
+                  "price": 90000,
+                  "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+                  "createdAt": "2023-06-27T13:33:48.848Z",
+                  "isPublished": true,
+                  "coverImage": "https://img.freepik.com/fotos-gratis/sedan-de-luxo-vermelho-na-estrada_114579-5079.jpg?w=1380&t=st=1686661554~exp=1686662154~hmac=d38ec69e0894b13fec85474a43b3be6b71c4cdfda39200ceb37e2d6680d3d6b1",
+                  "userId": "e4213cac-cedd-4d02-852b-1646a67307af",
+                  "user": {
+                    "name": "Antonio Santos",
+                    "email": "netoifpe@gmail.com",
+                    "description": "Teste apresenta~~ao Perfil"
+                  },
+                  "carImages": [
+                    {
+                      "id": "a2764b0d-8fb9-49f3-a28b-53673e2ef7be",
+                      "url": "https://img.freepik.com/fotos-gratis/sedan-de-luxo-vermelho-na-estrada_114579-5079.jpg?w=1380&t=st=1686661554~exp=1686662154~hmac=d38ec69e0894b13fec85474a43b3be6b71c4cdfda39200ceb37e2d6680d3d6b1",
+                      "carId": "c642e18d-3c5e-422a-ae86-afb770414d2c"
+                    },
+                    {
+                      "id": "f227db83-dd06-4b4b-9fa8-6de86afe36cd",
+                      "url": "https://img.freepik.com/premium-psd/isolated-realistic-shiny-brown-modern-city-suv-sport-car-from-right-front-view_16145-5769.jpg?w=1060",
+                      "carId": "c642e18d-3c5e-422a-ae86-afb770414d2c"
+                    },
+                    {
+                      "id": "04c280f6-4cce-4af4-b055-27109a742da1",
+                      "url": "https://img.freepik.com/premium-psd/isolated-realistic-matte-orange-elegant-sport-city-sedan-car-from-top-left-rear-view_16145-5706.jpg?w=1060",
+                      "carId": "c642e18d-3c5e-422a-ae86-afb770414d2c"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Alguma chave obrigatória não foi enviada ou está em um formato inválido.",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "bad_request_keys_required": {
+                    "value": {
+                      "message": {
+                        "brand": ["Required"],
+                        "model": ["Required"],
+                        "year": ["Required"],
+                        "fuelType": ["Required"],
+                        "mileage": ["Required"],
+                        "color": ["Required"],
+                        "fipePrice": ["Required"],
+                        "price": ["Required"],
+                        "description": ["Required"],
+                        "coverImage": ["Required"],
+                        "url": ["Required"]
+                      }
+                    }
+                  },
+                  "bad_request_invalid_fuelType": {
+                    "value": {
+                      "message": {
+                        "fuelType": [
+                          "Invalid enum value. Expected 'ETANOL' | 'FLEX' | 'HIBRIDO' | 'ELETRICO', received 'gasolina'"
+                        ]
+                      }
+                    }
+                  },
+                  "bad_request_invalid_types": {
+                    "value": {
+                      "message": {
+                        "mileage": ["Expected number, received string"],
+                        "fipePrice": ["Expected number, received string"],
+                        "price": ["Expected number, received string"],
+                        "url": ["Expected array, received string"]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Internal Server Error."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cars/user/{userId}": {
+      "get": {
+        "tags": ["Annoucements"],
+        "summary": "Lista todos os anúncios criados por um usuário",
+        "description": "Esta rota é responsável por listar todos os anúncios criados por um usuário. É necessário enviar o id do usuário.",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "ID do usuário",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK ",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Client_return"
+                },
+                "example": [
+                  {
+                    "id": "c642e18d-3c5e-422a-ae86-afb770414d2c",
+                    "brand": "ford",
+                    "model": "ecosport freestyle 1.5 12v flex 5p aut.",
+                    "year": "2021",
+                    "fuelType": "FLEX",
+                    "mileage": 15000,
+                    "color": "Azul",
+                    "fipePrice": 91213,
+                    "price": 90000,
+                    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+                    "createdAt": "2023-06-27T13:33:48.848Z",
+                    "isPublished": true,
+                    "coverImage": "https://img.freepik.com/fotos-gratis/sedan-de-luxo-vermelho-na-estrada_114579-5079.jpg?w=1380&t=st=1686661554~exp=1686662154~hmac=d38ec69e0894b13fec85474a43b3be6b71c4cdfda39200ceb37e2d6680d3d6b1",
+                    "userId": "e4213cac-cedd-4d02-852b-1646a67307af",
+                    "user": {
+                      "name": "Antonio Santos",
+                      "email": "netoifpe@gmail.com",
+                      "description": "Teste apresenta~~ao Perfil"
+                    },
+                    "carImages": [
+                      {
+                        "id": "a2764b0d-8fb9-49f3-a28b-53673e2ef7be",
+                        "url": "https://img.freepik.com/fotos-gratis/sedan-de-luxo-vermelho-na-estrada_114579-5079.jpg?w=1380&t=st=1686661554~exp=1686662154~hmac=d38ec69e0894b13fec85474a43b3be6b71c4cdfda39200ceb37e2d6680d3d6b1",
+                        "carId": "c642e18d-3c5e-422a-ae86-afb770414d2c"
+                      },
+                      {
+                        "id": "f227db83-dd06-4b4b-9fa8-6de86afe36cd",
+                        "url": "https://img.freepik.com/premium-psd/isolated-realistic-shiny-brown-modern-city-suv-sport-car-from-right-front-view_16145-5769.jpg?w=1060",
+                        "carId": "c642e18d-3c5e-422a-ae86-afb770414d2c"
+                      },
+                      {
+                        "id": "04c280f6-4cce-4af4-b055-27109a742da1",
+                        "url": "https://img.freepik.com/premium-psd/isolated-realistic-matte-orange-elegant-sport-city-sedan-car-from-top-left-rear-view_16145-5706.jpg?w=1060",
+                        "carId": "c642e18d-3c5e-422a-ae86-afb770414d2c"
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - Usuário não foi encontrado a partir do id enviado.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "User not found"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Internal Server Error."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cars/{carId}": {
+      "get": {
+        "tags": ["Annoucements"],
+        "summary": "Lista um anúncio de carro",
+        "description": "Esta rota é responsável por listar um anúncio cadastrado. É necessário enviar o id do anúncio de carro.",
+        "parameters": [
+          {
+            "name": "carId",
+            "in": "path",
+            "description": "ID do anúncio de carro",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "example": {
+                  "id": "1f4fe0e6-1b7d-40fb-abd6-662ddebbc8e2",
+                  "brand": "citroën",
+                  "model": "aircross 100 anos 1.6 flex 16v aut.",
+                  "year": "2020",
+                  "fuelType": "FLEX",
+                  "mileage": 5000,
+                  "color": "Branco",
+                  "fipePrice": 78972,
+                  "price": 80000,
+                  "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+                  "createdAt": "2023-06-22T17:23:05.255Z",
+                  "isPublished": true,
+                  "coverImage": "https://th.bing.com/th/id/R.5a503724cf4febd6781ff86bde9d80e0?rik=PalnEV4F5jJJiw&pid=ImgRaw&r=0",
+                  "userId": "e4213cac-cedd-4d02-852b-1646a67307af",
+                  "user": {
+                    "name": "Antonio Santos",
+                    "email": "netoifpe@gmail.com",
+                    "description": "Teste apresenta~~ao Perfil"
+                  },
+                  "carImages": [
+                    {
+                      "id": "47b6c33c-9cb2-493f-9ff1-eea3e313d3fc",
+                      "url": "https://th.bing.com/th/id/R.5a503724cf4febd6781ff86bde9d80e0?rik=PalnEV4F5jJJiw&pid=ImgRaw&r=0",
+                      "carId": "1f4fe0e6-1b7d-40fb-abd6-662ddebbc8e2"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - Anúncio de carro não foi encontrado a partir do id enviado.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Car id not found"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Internal Server Error."
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Annoucements"],
+        "summary": "Deletar um anúncio de carro",
+        "description": "Esta rota é responsável por deletar um anúncio cadastrado. É necessário enviar o id do anúncio de carro e o token de autentificaçao. O usuário só pode deletar seus próprios anúncios de carros criados.",
+        "parameters": [
+          {
+            "name": "carId",
+            "in": "path",
+            "description": "ID do anúncio de carro",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "OK -"
+          },
+          "401": {
+            "description": "Unauthorized - Não foi enviado um token de autorização, o token enviado expirou ou o token é inválido.",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "missing_bearer_token": {
+                    "value": {
+                      "message": "Missing bearer token"
+                    }
+                  },
+                  "jwt_expired": {
+                    "value": {
+                      "message": "jwt expired"
+                    }
+                  },
+                  "invalid_token": {
+                    "value": {
+                      "message": "JWT Invalid"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden - O token enviado não contém a autorização necessária para realizar a requisição.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "You can only delete your ads"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - Anúncio de carro não foi encontrado a partir do id enviado.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Car id not found"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Internal Server Error."
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": ["Annoucements"],
+        "summary": "Atualizar as informações um anúncio de carro",
+        "description": "Esta rota é responsável por atualizar as informações um anúncio cadastrado. É necessário enviar o id do anúncio de carro, corpo da requisição com as informações a serem atualizadas e o token de autentificaçao. O usuário só pode atualizar as informações dos seus próprios anúncios de carros criados. Nesta rota não é possível atualizar as imagens de galeria do anúncio.",
+        "parameters": [
+          {
+            "name": "carId",
+            "in": "path",
+            "description": "ID do anúncio de carro",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Cars_update"
+              },
+              "example": {
+                "mileage": 35000,
+                "description": " teste da rota de update"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "example": {
+                  "id": "1f4fe0e6-1b7d-40fb-abd6-662ddebbc8e2",
+                  "brand": "citroën",
+                  "model": "aircross 100 anos 1.6 flex 16v aut.",
+                  "year": "2020",
+                  "fuelType": "FLEX",
+                  "mileage": 35000,
+                  "color": "Branco",
+                  "fipePrice": 78972,
+                  "price": 80000,
+                  "description": " teste da rota de update",
+                  "createdAt": "2023-06-22T17:23:05.255Z",
+                  "isPublished": true,
+                  "coverImage": "https://th.bing.com/th/id/R.5a503724cf4febd6781ff86bde9d80e0?rik=PalnEV4F5jJJiw&pid=ImgRaw&r=0",
+                  "userId": "e4213cac-cedd-4d02-852b-1646a67307af"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Alguma chave está em um formato inválido.",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "bad_request_invalid_fuelType": {
+                    "value": {
+                      "message": {
+                        "fuelType": [
+                          "Invalid enum value. Expected 'ETANOL' | 'FLEX' | 'HIBRIDO' | 'ELETRICO', received 'gasolina'"
+                        ]
+                      }
+                    }
+                  },
+                  "bad_request_invalid_types": {
+                    "value": {
+                      "message": {
+                        "mileage": ["Expected number, received string"],
+                        "fipePrice": ["Expected number, received string"],
+                        "price": ["Expected number, received string"],
+                        "url": ["Expected array, received string"]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Não foi enviado um token de autorização, o token enviado expirou ou o token é inválido.",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "missing_bearer_token": {
+                    "value": {
+                      "message": "Missing bearer token"
+                    }
+                  },
+                  "jwt_expired": {
+                    "value": {
+                      "message": "jwt expired"
+                    }
+                  },
+                  "invalid_token": {
+                    "value": {
+                      "message": "JWT Invalid"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden - O token enviado não contém a autorização necessária para realizar a requisição.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "You can only delete your ads"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - Anúncio de carro não foi encontrado a partir do id enviado.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Car id not found"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Internal Server Error."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cars/{carId}/image": {
+      "post": {
+        "tags": ["Annoucements"],
+        "summary": "Adicionar uma imagem em um anúncio de carro",
+        "description": "Esta rota é responsável por adicionar uma imagem em um anúncio cadastrado. É necessário enviar o id do anúncio de carro, corpo da requisição com a url da imagem e o token de autentificaçao. O usuário só pode adicionar imagens aos seus próprios anúncios de carros criados.",
+        "parameters": [
+          {
+            "name": "carId",
+            "in": "path",
+            "description": "ID do anúncio de carro",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Cars_add_image"
+              },
+              "example": {
+                "url": "https://img.freepik.com/fotos-gratis/sedan-de-luxo-vermelho-na-estrada_114579-5079.jpg?w=1380&t=st=1686661554~exp=1686662154~hmac=d38ec69e0894b13fec85474a43b3be6b71c4cdfda39200ceb37e2d6680d3d6b1"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "OK - Imagem adicionada ao anúncio com sucesso",
+            "content": {
+              "application/json": {
+                "example": {
+                  "id": "b6977e85-9a4b-430e-aba1-c8a1c38c3bed",
+                  "url": "https://img.freepik.com/fotos-gratis/sedan-de-luxo-vermelho-na-estrada_114579-5079.jpg?w=1380&t=st=1686661554~exp=1686662154~hmac=d38ec69e0894b13fec85474a43b3be6b71c4cdfda39200ceb37e2d6680d3d6b1",
+                  "carId": "1f4fe0e6-1b7d-40fb-abd6-662ddebbc8e2"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Alguma chave obrigatória não foi enviada ou está em um formato inválido.",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "bad_request_keys_required": {
+                    "value": {
+                      "message": {
+                        "url": ["Required"]
+                      }
+                    }
+                  },
+                  "bad_request_invalid_types": {
+                    "value": {
+                      "message": {
+                        "url": ["Expected string, received array"]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Não foi enviado um token de autorização, o token enviado expirou ou o token é inválido.",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "missing_bearer_token": {
+                    "value": {
+                      "message": "Missing bearer token"
+                    }
+                  },
+                  "jwt_expired": {
+                    "value": {
+                      "message": "jwt expired"
+                    }
+                  },
+                  "invalid_token": {
+                    "value": {
+                      "message": "JWT Invalid"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden - O token enviado não contém a autorização necessária para realizar a requisição.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "You can only create image for your cars"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - Anúncio de carro não foi encontrado a partir do id enviado.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Car id not found"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Internal Server Error."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cars/{carId}/image/{imageId}": {
+      "patch": {
+        "tags": ["Annoucements"],
+        "summary": "Atualizar uma imagem em um anúncio de carro",
+        "description": "Esta rota é responsável por atualizar uma imagem em um anúncio cadastrado. É necessário enviar o id do anúncio de carro, o id da imagem, o corpo da requisição com a url da imagem e o token de autentificaçao. O usuário só pode atualizar imagens dos seus próprios anúncios de carros criados.",
+        "parameters": [
+          {
+            "name": "carId",
+            "in": "path",
+            "description": "ID do anúncio de carro",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "imageId",
+            "in": "path",
+            "description": "ID da imagem do carro",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Cars_add_image"
+              },
+              "example": {
+                "url": "https://img.freepik.com/fotos-gratis/sedan-de-luxo-vermelho-na-estrada_114579-5079.jpg?w=1380&t=st=1686661554~exp=1686662154~hmac=d38ec69e0894b13fec85474a43b3be6b71c4cdfda39200ceb37e2d6680d3d6b1"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK - Imagem atualizada com sucesso",
+            "content": {
+              "application/json": {
+                "example": {
+                  "id": "b6977e85-9a4b-430e-aba1-c8a1c38c3bed",
+                  "url": "https://img.freepik.com/fotos-gratis/sedan-de-luxo-vermelho-na-estrada_114579-5079.jpg?w=1380&t=st=1686661554~exp=1686662154~hmac=d38ec69e0894b13fec85474a43b3be6b71c4cdfda39200ceb37e2d6680d3d6b1",
+                  "carId": "1f4fe0e6-1b7d-40fb-abd6-662ddebbc8e2"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Alguma chave está em um formato inválido.",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "bad_request_invalid_types": {
+                    "value": {
+                      "message": {
+                        "url": ["Expected string, received array"]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Não foi enviado um token de autorização, o token enviado expirou ou o token é inválido.",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "missing_bearer_token": {
+                    "value": {
+                      "message": "Missing bearer token"
+                    }
+                  },
+                  "jwt_expired": {
+                    "value": {
+                      "message": "jwt expired"
+                    }
+                  },
+                  "invalid_token": {
+                    "value": {
+                      "message": "JWT Invalid"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden - O token enviado não contém a autorização necessária para realizar a requisição.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "You can update your images"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - Anúncio ou imagem de carro não foi encontrado a partir do id enviado.",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "not_found_car_id": {
+                    "value": {
+                      "message": "Car id not found"
+                    }
+                  },
+                  "not_found_image_id": {
+                    "value": {
+                      "message": "Image id not found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Internal Server Error."
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Annoucements"],
+        "summary": "Deletar uma imagem em um anúncio de carro",
+        "description": "Esta rota é responsável por deletar uma imagem em um anúncio cadastrado. É necessário enviar o id do anúncio de carro, o id da imagem e o token de autentificaçao. O usuário só pode deletar imagens dos seus próprios anúncios de carros criados.",
+        "parameters": [
+          {
+            "name": "carId",
+            "in": "path",
+            "description": "ID do anúncio de carro",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "imageId",
+            "in": "path",
+            "description": "ID da imagem do carro",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "OK -"
+          },
+          "401": {
+            "description": "Unauthorized - Não foi enviado um token de autorização, o token enviado expirou ou o token é inválido.",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "missing_bearer_token": {
+                    "value": {
+                      "message": "Missing bearer token"
+                    }
+                  },
+                  "jwt_expired": {
+                    "value": {
+                      "message": "jwt expired"
+                    }
+                  },
+                  "invalid_token": {
+                    "value": {
+                      "message": "JWT Invalid"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden - O token enviado não contém a autorização necessária para realizar a requisição.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "You can delete your images"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - Anúncio ou imagem de carro não foi encontrado a partir do id enviado.",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "not_found_car_id": {
+                    "value": {
+                      "message": "Car id not found"
+                    }
+                  },
+                  "not_found_image_id": {
+                    "value": {
+                      "message": "Image id not found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Internal Server Error."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/filters": {
+      "get": {
+        "tags": ["Annoucements"],
+        "summary": "Listar os anúncios cadastrados com páginação e filtros",
+        "description": "Esta rota é responsável por listar os anúncios cadastrados, sendo possível aplicar filtros de buscas e páginação.",
+        "parameters": [
+          {
+            "name": "brand",
+            "in": "query",
+            "description": "Define a marca do carro a ser filtrado nos anúncios. A query não faz diferença entre letras maiúsculas e minúsculas",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "model",
+            "in": "query",
+            "description": "Define o modelo do carro a ser filtrado nos anúncios. A query não faz diferença entre letras maiúsculas e minúsculas e realiza um filtro do tipo include com a query enviada.",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "year",
+            "in": "query",
+            "description": "Define o ano do carro a ser filtrado nos anúncios.",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string",
+              "enum": ["2018", "2019", "2020", "2021", "2022", "2023"]
+            }
+          },
+          {
+            "name": "fueltype",
+            "in": "query",
+            "description": "Define o tipo de combustível do carro a ser filtrado nos anúncios.",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string",
+              "enum": ["ETANOL", "FLEX", "HIBRIDO", "ELETRICO"]
+            }
+          },
+          {
+            "name": "color",
+            "in": "query",
+            "description": "Define a cor do carro a ser filtrado nos anúncios. A query não faz diferença entre letras maiúsculas e minúsculas.",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "minkm",
+            "in": "query",
+            "description": "Define a kilometragem mínima do carro a ser filtrado nos anúncios.",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "maxkm",
+            "in": "query",
+            "description": "Define a kilometragem máxima do carro a ser filtrado nos anúncios.",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "minprice",
+            "in": "query",
+            "description": "Define o preço mínimo do carro a ser filtrado nos anúncios.",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "maxprice",
+            "in": "query",
+            "description": "Define o preço máximo do carro a ser filtrado nos anúncios.",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "description": "Define a página a ser exibida, da lista de anúncio. Os valores válidos para a query, são números inteiros maiores que 0, caso um valor inválido seja enviado ou nenhum valor seja informado, a query assumirá o valor default 1.",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "Define a quantidade de anúncios a ser exibido em cada página. Os valores válidos para a query, são números inteiros maiores que 0, caso um valor inválido seja enviado ou nenhum valor seja informado, a query assumirá o valor default 9.",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "example": {
+                  "nextPage": "http://localhost:4000/filters?pageNumber=3&pageSize=1",
+                  "prevPage": "http://localhost:4000/filters?pageNumber=1&pageSize=1",
+                  "pages": 6,
+                  "items": 1,
+                  "data": [
+                    {
+                      "id": "b9a6e0b2-4423-4ce5-a0a9-e4f9ca5ab0d2",
+                      "brand": "nissan",
+                      "model": "kicks active s 1.6 16v flex aut.",
+                      "year": "2022",
+                      "fuelType": "FLEX",
+                      "mileage": 22000,
+                      "color": "Branco",
+                      "fipePrice": 99128,
+                      "price": 100000,
+                      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+                      "createdAt": "2023-06-22T17:29:31.345Z",
+                      "isPublished": true,
+                      "coverImage": "https://th.bing.com/th/id/OIP.Dtwn9ANYGx710oq9KdZ8bgHaE8?pid=ImgDet&rs=1",
+                      "userId": "e4213cac-cedd-4d02-852b-1646a67307af",
+                      "user": {
+                        "name": "Antonio Santos",
+                        "email": "netoifpe@gmail.com",
+                        "description": "Teste apresenta~~ao Perfil"
+                      },
+                      "carImages": [
+                        {
+                          "id": "db855db1-df70-486e-b535-e0b0ea3edc19",
+                          "url": "https://th.bing.com/th/id/OIP.Dtwn9ANYGx710oq9KdZ8bgHaE8?pid=ImgDet&rs=1",
+                          "carId": "b9a6e0b2-4423-4ce5-a0a9-e4f9ca5ab0d2"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Internal Server Error."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/comments/{carId}": {
+      "post": {
+        "tags": ["Comments"],
+        "summary": "Criar um comentário para um anúncio",
+        "description": "Esta rota é responsável por adicionar um comentário em um anúncio de carro. É necessário enviar o id do anúncio de carro e o token de autenticaçao.",
+        "parameters": [
+          {
+            "name": "carId",
+            "in": "path",
+            "description": "ID do anúncio de carro",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Comments_create"
+              },
+              "example": {
+                "content": " teste da rota de criar comententário"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK - Criação de comentário realizado com sucesso",
+            "content": {
+              "application/json": {
+                "example": {
+                  "id": "28c714a5-7ccf-44ad-9e15-3f2336a659b3",
+                  "content": " teste da rota de criar comententário",
+                  "userId": "e4213cac-cedd-4d02-852b-1646a67307af",
+                  "carId": "1f4fe0e6-1b7d-40fb-abd6-662ddebbc8e2",
+                  "createdAt": "2023-06-27T19:45:10.288Z",
+                  "user": {
+                    "name": "Antonio Santos"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Alguma chave está em um formato inválido.",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "bad_request_invalid_types": {
+                    "value": {
+                      "message": {
+                        "content": ["Expected string, received number"]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Não foi enviado um token de autorização, o token enviado expirou ou o token é inválido.",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "missing_bearer_token": {
+                    "value": {
+                      "message": "Missing bearer token"
+                    }
+                  },
+                  "jwt_expired": {
+                    "value": {
+                      "message": "jwt expired"
+                    }
+                  },
+                  "invalid_token": {
+                    "value": {
+                      "message": "JWT Invalid"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - Anúncio de carro não foi encontrado a partir do id enviado.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Car id not found"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Internal Server Error."
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": ["Comments"],
+        "summary": "Listar os comentários de um anúncio",
+        "description": "Esta rota é responsável por listar os comentários de um anúncio de carro. É necessário enviar o id do anúncio de carro.",
+        "parameters": [
+          {
+            "name": "carId",
+            "in": "path",
+            "description": "ID do anúncio de carro",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK - Criação de comentário realizado com sucesso",
+            "content": {
+              "application/json": {
+                "example": [
+                  {
+                    "id": "28c714a5-7ccf-44ad-9e15-3f2336a659b3",
+                    "content": " teste da rota de criar comententário",
+                    "userId": "e4213cac-cedd-4d02-852b-1646a67307af",
+                    "carId": "1f4fe0e6-1b7d-40fb-abd6-662ddebbc8e2",
+                    "createdAt": "2023-06-27T19:45:10.288Z",
+                    "user": {
+                      "name": "Antonio Santos"
+                    }
+                  },
+                  {
+                    "id": "82002feb-5cd1-4dc8-ae08-88a977331170",
+                    "content": " teste da rota de criar comententário via swagger",
+                    "userId": "e4213cac-cedd-4d02-852b-1646a67307af",
+                    "carId": "1f4fe0e6-1b7d-40fb-abd6-662ddebbc8e2",
+                    "createdAt": "2023-06-27T19:47:26.506Z",
+                    "user": {
+                      "name": "Antonio Santos"
+                    }
+                  },
+                  {
+                    "id": "eb796469-fb8a-4302-a791-32bb0802de16",
+                    "content": " teste da rota de criar comententário 2",
+                    "userId": "e4213cac-cedd-4d02-852b-1646a67307af",
+                    "carId": "1f4fe0e6-1b7d-40fb-abd6-662ddebbc8e2",
+                    "createdAt": "2023-06-27T19:49:49.885Z",
+                    "user": {
+                      "name": "Antonio Santos"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - Anúncio de carro não foi encontrado a partir do id enviado.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Car id not found"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Internal Server Error."
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -797,6 +2099,118 @@
             "type": "string"
           },
           "password": {
+            "type": "string"
+          }
+        }
+      },
+      "Cars_create": {
+        "required": [
+          "brand",
+          "model",
+          "year",
+          "fuelType",
+          "mileage",
+          "color",
+          "fipePrice",
+          "price",
+          "description",
+          "coverImage",
+          "isPublished",
+          "url"
+        ],
+        "type": "object",
+        "properties": {
+          "brand": {
+            "type": "string"
+          },
+          "model": {
+            "type": "string"
+          },
+          "year": {
+            "type": "string"
+          },
+          "fuelType": {
+            "type": "string"
+          },
+          "mileage": {
+            "type": "number"
+          },
+          "color": {
+            "type": "string"
+          },
+          "fipePrice": {
+            "type": "number"
+          },
+          "price": {
+            "type": "number"
+          },
+          "description": {
+            "type": "string"
+          },
+          "coverImage": {
+            "type": "string"
+          },
+          "isPublished": {
+            "type": "boolean"
+          },
+          "url": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "Cars_update": {
+        "type": "object",
+        "properties": {
+          "brand": {
+            "type": "string"
+          },
+          "model": {
+            "type": "string"
+          },
+          "year": {
+            "type": "string"
+          },
+          "fuelType": {
+            "type": "string"
+          },
+          "mileage": {
+            "type": "number"
+          },
+          "color": {
+            "type": "string"
+          },
+          "fipePrice": {
+            "type": "number"
+          },
+          "price": {
+            "type": "number"
+          },
+          "description": {
+            "type": "string"
+          },
+          "coverImage": {
+            "type": "string"
+          },
+          "isPublished": {
+            "type": "boolean"
+          }
+        }
+      },
+      "Cars_add_image": {
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string"
+          }
+        }
+      },
+      "Comments_create": {
+        "type": "object",
+        "properties": {
+          "content": {
             "type": "string"
           }
         }

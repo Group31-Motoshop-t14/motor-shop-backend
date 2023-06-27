@@ -15,7 +15,7 @@ const ensureIdCarExistsMiddleware = async (
   });
 
   if (!carsData) {
-    throw new AppError("Car id not exists", 404);
+    throw new AppError("Car id not found", 404);
   }
 
   return next();

@@ -201,7 +201,7 @@ const updateImageCarService = async (
   });
 
   if (!findImage) {
-    throw new AppError("image not exists", 404);
+    throw new AppError("Image id not found", 404);
   }
 
   if (findImage.carId != carId) {
@@ -232,7 +232,7 @@ const deleteImageCarService = async (
   });
 
   if (!findImage) {
-    throw new AppError("image not exists", 404);
+    throw new AppError("Image id not found", 404);
   }
 
   if (findImage.carId != carId) {
@@ -339,7 +339,7 @@ const filterCarsService = async (
     nextPage,
     prevPage,
     pages: pages,
-    items: count,
+    items: cars.length,
     data: cars,
   };
 };

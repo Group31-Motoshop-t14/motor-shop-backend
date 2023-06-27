@@ -14,6 +14,7 @@ import {
   ensureIdCarExistsMiddleware,
   validateBodyMiddleware,
   validateTokenMiddleware,
+  validateUserIdMiddleware,
   verifyAdvertiserMiddleware,
 } from "../middlewares";
 import {
@@ -33,7 +34,7 @@ carsRoutes.post(
   createCarsController
 );
 carsRoutes.get("", getCarsController);
-carsRoutes.get("/user/:id", getCarsIdUserController);
+carsRoutes.get("/user/:id", validateUserIdMiddleware, getCarsIdUserController);
 carsRoutes.get("/:id", ensureIdCarExistsMiddleware, getCarsIdController);
 carsRoutes.patch(
   "/:id",
