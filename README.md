@@ -41,7 +41,7 @@ Segue os links para mais informações sobre as tecnologias utilizadas:
 
 Diagrama ER da API definindo bem as relações entre as tabelas do banco de dados.
 
-![Diagrama do projeto com suas relações!](https://i.ibb.co/h2fBj5z/der-motor-shop.png "Motor-Shop-Diragrama")
+![Diagrama do projeto com suas relações!](https://i.ibb.co/CV2bZdG/der-motor-shop.png "Motor-Shop-Diragrama")
 
 ---
 
