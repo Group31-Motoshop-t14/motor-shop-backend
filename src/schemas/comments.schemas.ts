@@ -9,5 +9,6 @@ const commentSchemaResponse = commentSchema.extend({
   userId: z.string(),
   createdAt: z.date(),
 });
+const commentSchemaUpdate = commentSchema.partial();
 
-export { commentSchema, commentSchemaResponse };
+export { commentSchema, commentSchemaResponse, commentSchemaUpdate };
