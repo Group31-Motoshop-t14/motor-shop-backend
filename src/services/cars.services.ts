@@ -117,6 +117,7 @@ const getCarsIdService = async (carId: string): Promise<ICars> => {
           name: true,
           email: true,
           description: true,
+          phone: true,
         },
       },
       carImages: true,
