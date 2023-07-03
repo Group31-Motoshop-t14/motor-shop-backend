@@ -17,10 +17,15 @@ import {
   deleteCarsIdService,
   updateImageCarService,
   createImageCarService,
-  deleteImageCarService
+  deleteImageCarService,
 } from "./cars.services";
 
-import { createCommentService, getCommentsService } from "./comments.services";
+import {
+  createCommentService,
+  getCommentsService,
+  deleteCommentsService,
+  updateCommentsService,
+} from "./comments.services";
 
 export {
   createLoginService,
@@ -40,5 +45,7 @@ export {
   createImageCarService,
   createCommentService,
   getCommentsService,
-  deleteImageCarService
+  deleteImageCarService,
+  deleteCommentsService,
+  updateCommentsService,
 };

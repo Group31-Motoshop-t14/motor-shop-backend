@@ -76,6 +76,7 @@ const getCarsService = async (): Promise<ICars[]> => {
           name: true,
           email: true,
           description: true,
+          phone: true,
         },
       },
       carImages: true,

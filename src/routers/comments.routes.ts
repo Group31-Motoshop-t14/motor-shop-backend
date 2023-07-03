@@ -1,11 +1,17 @@
 import { Router } from "express";
 import {
   ensureIdCarExistsMiddleware,
+  ensureIdCommentExistsMiddleware,
   validateBodyMiddleware,
   validateTokenMiddleware,
 } from "../middlewares";
-import { createCommentController, getCommentsController } from "../controllers";
-import { commentSchema } from "../schemas";
+import {
+  createCommentController,
+  deleteCommentsController,
+  getCommentsController,
+  updateCommentsController,
+} from "../controllers";
+import { commentSchema, commentSchemaUpdate } from "../schemas";
 
 const commentsRoutes: Router = Router();
 
@@ -18,5 +24,18 @@ commentsRoutes.post(
 );
 
 commentsRoutes.get("/:id", ensureIdCarExistsMiddleware, getCommentsController);
+commentsRoutes.delete(
+  "/:id",
+  validateTokenMiddleware,
+  ensureIdCommentExistsMiddleware,
+  deleteCommentsController
+);
+commentsRoutes.patch(
+  "/:id",
+  validateTokenMiddleware,
+  ensureIdCommentExistsMiddleware,
+  validateBodyMiddleware(commentSchemaUpdate),
+  updateCommentsController
+);
 
 export { commentsRoutes };
