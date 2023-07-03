@@ -6,6 +6,7 @@ import validateTokenMiddleware from "./validateToken.middleware";
 import verifyAdvertiserMiddleware from "./verifyIsAdvertiser.middleware";
 import verifyUserIsDeletedMiddleware from "./verifyUserIsDeleted.middleware";
 import validateUserIdMiddleware from "./validateUserId.middleware";
+import ensureIdCommentExistsMiddleware from "./ensureIdCommentExists.middleware";
 
 export {
   validateBodyMiddleware,
@@ -15,5 +16,6 @@ export {
   verifyAdvertiserMiddleware,
   ensureIdCarExistsMiddleware,
   verifyUserIsDeletedMiddleware,
-  validateUserIdMiddleware
+  validateUserIdMiddleware,
+  ensureIdCommentExistsMiddleware,
 };

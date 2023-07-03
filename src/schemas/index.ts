@@ -25,7 +25,11 @@ import {
   imageCreateSchema,
 } from "./cars.schemas";
 
-import { commentSchema, commentSchemaResponse } from "./comments.schemas";
+import {
+  commentSchema,
+  commentSchemaResponse,
+  commentSchemaUpdate,
+} from "./comments.schemas";
 
 export {
   userSchema,
@@ -50,4 +54,5 @@ export {
   imageCreateSchema,
   commentSchema,
   commentSchemaResponse,
+  commentSchemaUpdate,
 };
