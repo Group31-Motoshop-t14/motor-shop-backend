@@ -1,5 +1,11 @@
 import { Request, Response } from "express";
-import { createCommentService, getCommentsService } from "../services";
+import {
+  createCommentService,
+  deleteCommentsService,
+  getCommentsService,
+  updateCommentsService,
+} from "../services";
+import { ICommentsUpdate } from "../interfaces/comments.interface";
 
 const createCommentController = async (req: Request, res: Response) => {
   const carId = req.params.id;
@@ -18,4 +24,31 @@ const getCommentsController = async (req: Request, res: Response) => {
   return res.status(200).json(comments);
 };
 
-export { createCommentController, getCommentsController };
+const deleteCommentsController = async (req: Request, res: Response) => {
+  const commentId = req.params.id;
+  const userId = res.locals.id;
+
+  await deleteCommentsService(commentId, userId);
+
+  return res.status(204).json();
+};
+
+const updateCommentsController = async (req: Request, res: Response) => {
+  const commentId = req.params.id;
+  const userId = res.locals.id;
+
+  const comment: ICommentsUpdate = await updateCommentsService(
+    commentId,
+    userId,
+    req.body
+  );
+
+  return res.status(200).json(comment);
+};
+
+export {
+  createCommentController,
+  getCommentsController,
+  deleteCommentsController,
+  updateCommentsController,
+};

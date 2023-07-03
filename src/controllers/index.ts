@@ -8,7 +8,7 @@ import {
   getCarsIdUserController,
   updateCarsIdController,
   updateImagesCarController,
-  deleteImageCarsIdController
+  deleteImageCarsIdController,
 } from "./cars.controllers";
 import { createLoginController } from "./login.controllers";
 import {
@@ -23,6 +23,8 @@ import {
 import {
   createCommentController,
   getCommentsController,
+  deleteCommentsController,
+  updateCommentsController,
 } from "./comments.controllers";
 
 export {
@@ -45,5 +47,7 @@ export {
   filterCarsController,
   createCommentController,
   getCommentsController,
-  deleteImageCarsIdController
+  deleteImageCarsIdController,
+  deleteCommentsController,
+  updateCommentsController,
 };
