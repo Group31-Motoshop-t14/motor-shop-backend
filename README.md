@@ -91,7 +91,11 @@ e
 
 [Voltar para o topo](#tabela-de-conteúdos)
 
-Ainda em desenvolvimento.
+É possivel acessar a documentação da API criada com Swagger de forma local utilizando o endpoint /api-docs/ ou pelo link ([Motor-Shop-Documentação-local](http://localhost:3000/api-docs/#/)) , lembrando que é necessário que o servidor esteja rodando de forma local, para o link funcionar.
+Essa documentação descreve os recusos que a API possuí, como Endpoints, exemplos de requisição, exemplos de retorno e metodos de autenticação.
+Também é possível acessar a documentação da API pelos seguintes links:
+
+- [Contacts-Book-Documentação-em-produção]([https://contacts-book-api-6ydl.onrender.com/api-docs/](https://motor-shop-t14.onrender.com/api-docs/))
 
 ---
 
